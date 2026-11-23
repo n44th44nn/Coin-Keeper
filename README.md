@@ -85,7 +85,7 @@ A fast, accessible student personal finance and budgeting web application built 
 ## Project Structure
 
 ```text
-.
+Coin-Keeper
 ├── index.html                  # Screen 01 · Dasbor (main entry point)
 ├── pages/                      # HTML views for screens 02–05 (Catat Transaksi, Anggaran, Laporan, Tabungan)
 ├── css/                        # Design tokens (variables.css), base shell, reusable BEM components, and page styles
@@ -98,8 +98,6 @@ A fast, accessible student personal finance and budgeting web application built 
 │   └── Dokumentasi_Front-End_Coin-Keeper.pdf
 └── README.md                   # Repository overview
 ```
-
-> <!-- TODO: If you choose to copy your university reports and reference PDF into docs/reports/ and docs/reference/, update the tree above accordingly -->
 
 ---
 
@@ -121,7 +119,7 @@ No package installation, build step, or backend server is required.
 
 ## Live Demo
 
-- **Live URL:** <!-- TODO: add GitHub Pages live demo URL (e.g., https://<username>.github.io/<repo-name>/) -->
+- **Live URL:** https://github.com/n44th44nn/Coin-Keeper
 
 ### Enabling GitHub Pages
 1. Push this repository to GitHub on the `main` branch.
@@ -137,8 +135,7 @@ No package installation, build step, or backend server is required.
 - **Front-End & HCI Documentation (PDF):** [Dokumentasi_Front-End_Coin-Keeper.pdf](docs/Dokumentasi_Front-End_Coin-Keeper.pdf)
 - **Documentation Print Source (HTML):** [Dokumentasi_Front-End_Coin-Keeper.html](docs/Dokumentasi_Front-End_Coin-Keeper.html)
 - **Phase 0 Pre-Implementation Analysis:** [00-analysis.md](docs/00-analysis.md)
-- **Project Reports (Stage 1 & Stage 2):** <!-- TODO: copy Stage 1 & Stage 2 PDFs into docs/reports/ and add relative links here -->
-- **Reference Specification (`referensi.pdf`):** <!-- TODO: copy referensi.pdf into docs/reference/ and add a relative link here -->
+- **Project Reports (Stage 1 & Stage 2):** [Report Stage 1](docs/reports/Laporan_Proyek_Akhir_Tahap_1.pdf) and [Report Stage 2](docs/reports/Laporan_Proyek_Akhir_IMK_-_Tahap_2_(CoinKeeper).pdf)
 - **Figma Prototype:** [Tugas-imk (`web-hi-fi`)](https://www.figma.com/design/FVCtagXn3FSiHgP9gGvrDz/Tugas-imk?node-id=124-2)
 
 ---
@@ -150,7 +147,7 @@ The Figma file contains three design pages:
 2. **`hi-fi`:** High-fidelity mobile prototype (390×844) used as a reference for interaction flow, content copy, and small-screen bottom-bar navigation.
 3. **`web-hi-fi`:** High-fidelity desktop design (45 frames at `1440×1024` covering 5 core screens plus 40 interactive states and dialogs) — **this page is the primary source of truth implemented by the website.**
 
-- **Figma File Link:** [https://www.figma.com/design/FVCtagXn3FSiHgP9gGvrDz/Tugas-imk?node-id=124-2](https://www.figma.com/design/FVCtagXn3FSiHgP9gGvrDz/Tugas-imk?node-id=124-2) <!-- TODO: verify Figma sharing is set to "Anyone with the link can view" -->
+- **Figma File Link:** [https://www.figma.com/design/FVCtagXn3FSiHgP9gGvrDz/Tugas-imk?node-id=124-2](https://www.figma.com/design/FVCtagXn3FSiHgP9gGvrDz/Tugas-imk?node-id=124-2)
 
 ---
 
@@ -158,9 +155,9 @@ The Figma file contains three design pages:
 
 | Name | Student ID (NIM) | Role |
 | :--- | :--- | :--- |
-| Jonathan Simamora | `255150200111045` | <!-- TODO: add role --> |
-| Joseph Mohr Dio Sinamo | `255150200111048` | <!-- TODO: add role --> |
-| M. Reza Faris Al Faqih | `255150207111071` | <!-- TODO: add role --> |
+| Jonathan Simamora | `255150200111045` | Front-End Designer |
+| Joseph Mohr Dio Sinamo | `255150200111048` | Human Computer Interaction Analysis |
+| M. Reza Faris Al Faqih | `255150207111071` | Problem Elicitation |
 
 ---
 
@@ -169,7 +166,7 @@ The Figma file contains three design pages:
 - **Course:** Interaksi Manusia dan Komputer (`CIF63108` / `CIF63109`)
 - **Lecturer:** Mahardeka Tri Ananta
 - **University:** Fakultas Ilmu Komputer, Universitas Brawijaya
-- **Semester:** <!-- TODO: add semester and academic year (e.g., Ganjil 2026/2027) -->
+- **Semester:** Ganjil 2026/2027
 
 ---
 
