@@ -172,6 +172,8 @@ The Figma file contains three design pages:
 
 ## License
 
-<!-- TODO: add license (e.g., MIT License) and create a LICENSE file in the repository root -->
+## License
+
+This project is licensed under the [MIT License](LICENSE).
 
 > **Note:** University lecture materials (`IMK 00–06` and `IMK-10`) used as theoretical references are copyright of Fakultas Ilmu Komputer, Universitas Brawijaya, and are **not** included in this repository.
