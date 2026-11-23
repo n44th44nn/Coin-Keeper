@@ -48,11 +48,12 @@ A fast, accessible student personal finance and budgeting web application built 
 
 | Screen | Desktop View (`1440×1024`) | Highlights |
 | :--- | :---: | :--- |
-| **01 · Dasbor** | ![Dasbor Desktop](docs/screenshots/01-dasbor-desktop.png) | KPI cards, recent 4 transactions, and *Perlu perhatian* budget alerts |
-| **02 · Catat Transaksi** | ![Catat Transaksi Desktop](docs/screenshots/02-catat-desktop.png) | Segmented toggle, 7 category chips, history list, and transaction guide |
-| **03 · Anggaran** | ![Anggaran Desktop](docs/screenshots/03-anggaran-desktop.png) | 5 category progress meters, monthly summary, and overbudget alert |
-| **04 · Laporan** | ![Laporan Desktop](docs/screenshots/04-laporan-nov.png) | Inline SVG bar chart with per-category budget thresholds and MoM delta |
-| **05 · Tabungan** | ![Tabungan Desktop](docs/screenshots/05-tabungan-desktop.png) | Circular SVG progress rings, goal deadlines, and available balance summary |
+| **01 · Masuk Akun (Login)** | ![Masuk Akun Desktop](docs/screenshots/06-login-desktop.png) | Split-screen auth layout, inline validation, 44×44 password toggle, demo autofill, and help modal |
+| **02 · Dasbor** | ![Dasbor Desktop](docs/screenshots/01-dasbor-desktop.png) | KPI cards, recent 4 transactions, and *Perlu perhatian* budget alerts |
+| **03 · Catat Transaksi** | ![Catat Transaksi Desktop](docs/screenshots/02-catat-desktop.png) | Segmented toggle, 7 category chips, history list, and transaction guide |
+| **04 · Anggaran** | ![Anggaran Desktop](docs/screenshots/03-anggaran-desktop.png) | 5 category progress meters, monthly summary, and overbudget alert |
+| **05 · Laporan** | ![Laporan Desktop](docs/screenshots/04-laporan-nov.png) | Inline SVG bar chart with per-category budget thresholds and MoM delta |
+| **06 · Tabungan** | ![Tabungan Desktop](docs/screenshots/05-tabungan-desktop.png) | Circular SVG progress rings, goal deadlines, and available balance summary |
 | **Responsive Mobile** | ![Dasbor Mobile](docs/screenshots/01-dasbor-mobile.png) | Compact topbar, single-column reflow (`≤ 320px`), and sticky bottom navigation |
 
 ---
