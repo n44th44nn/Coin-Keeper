@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dokumentasi Front-End CoinKeeper — Interaksi Manusia dan Komputer</title>
+  <style>
+    /* ========================================================================
+       Print & Page Setup (A4 Portrait, Running Headers/Footers & Page Numbers)
+       ======================================================================== */
+    @page {
+      size: A4 portrait;
+      margin: 22mm 18mm 22mm 18mm;
+
+      @top-left {
+        content: "CoinKeeper · Dokumentasi Implementasi Front-End";
+        font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+        font-size: 8.5pt;
+        color: #64748B;
+        border-bottom: 0.5pt solid #E2E8F0;
+        padding-bottom: 4pt;
+        margin-bottom: 8pt;
+      }
+
+      @top-right {
+        content: "CIF63108 / CIF63109 · IMK";
+        font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+        font-size: 8.5pt;
+        color: #64748B;
+        border-bottom: 0.5pt solid #E2E8F0;
+        padding-bottom: 4pt;
+        margin-bottom: 8pt;
+      }
+
+      @bottom-left {
+        content: "Fakultas Ilmu Komputer · Universitas Brawijaya";
+        font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+        font-size: 8.5pt;
+        color: #64748B;
+        border-top: 0.5pt solid #E2E8F0;
+        padding-top: 4pt;
+      }
+
+      @bottom-right {
+        content: "Halaman " counter(page) " dari " counter(pages);
+        font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+        font-size: 8.5pt;
+        font-weight: 600;
+        color: #334155;
+        border-top: 0.5pt solid #E2E8F0;
+        padding-top: 4pt;
+      }
+    }
+
+    @page :first {
+      margin: 0;
+      @top-left { content: none; }
+      @top-right { content: none; }
+      @bottom-left { content: none; }
+      @bottom-right { content: none; }
+    }
+
+    /* ========================================================================
+       Base Typography & Academic Visual Styling
+       ======================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 10pt;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 10pt;
+      line-height: 1.58;
+      color: #0F172A;
+      background-color: #FFFFFF;
+    }
+
+    /* Halaman Sampul */
+    .cover-page {
+      min-height: 297mm;
+      padding: 28mm 22mm 24mm 22mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: linear-gradient(180deg, #0F172A 0%, #0F172A 36%, #F8FAFC 36%, #FFFFFF 100%);
+      page-break-after: always;
+    }
+
+    .cover-top {
+      color: #FFFFFF;
+    }
+
+    .cover-badge {
+      display: inline-block;
+      padding: 6pt 12pt;
+      border-radius: 6pt;
+      background-color: #1E40AF;
+      color: #FFFFFF;
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14pt;
+    }
+
+    .cover-course {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #CBD5E1;
+      margin-bottom: 8pt;
+    }
+
+    .cover-title {
+      font-size: 22pt;
+      line-height: 1.25;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 10pt;
+    }
+
+    .cover-top code {
+      background-color: rgba(255, 255, 255, 0.14);
+      color: #FFFFFF;
+    }
+
+    .cover-subtitle {
+      font-size: 11pt;
+      line-height: 1.5;
+      color: #CBD5E1;
+      max-width: 92%;
+    }
+
+    .cover-mid {
+      margin-top: 18mm;
+      background-color: #FFFFFF;
+      border: 1pt solid #CBD5E1;
+      border-radius: 10pt;
+      padding: 16pt 18pt;
+      box-shadow: 0 6pt 16pt rgba(15, 23, 42, 0.08);
+    }
+
+    .cover-meta-title {
+      font-size: 9.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #1E40AF;
+      margin-bottom: 10pt;
+    }
+
+    .cover-meta-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.5pt;
+    }
+
+    .cover-meta-table th,
+    .cover-meta-table td {
+      padding: 6.5pt 8pt;
+      border-bottom: 0.5pt solid #E2E8F0;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .cover-meta-table tr:last-child th,
+    .cover-meta-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .cover-meta-table th {
+      width: 32%;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .cover-meta-table td {
+      color: #0F172A;
+      font-weight: 500;
+    }
+
+    .cover-bottom {
+      border-top: 1.5pt solid #1E40AF;
+      padding-top: 12pt;
+      text-align: center;
+      color: #334155;
+      font-size: 10pt;
+      font-weight: 600;
+    }
+
+    .cover-bottom span {
+      display: block;
+      font-size: 9pt;
+      font-weight: 400;
+      color: #64748B;
+      margin-top: 3pt;
+    }
+
+    /* Struktur Bab & Heading */
+    .page-break {
+      page-break-before: always;
+    }
+
+    h1.chapter-title {
+      font-size: 15.5pt;
+      line-height: 1.3;
+      font-weight: 700;
+      color: #0F172A;
+      border-bottom: 2pt solid #1E40AF;
+      padding-bottom: 5pt;
+      margin-top: 4pt;
+      margin-bottom: 11pt;
+      break-after: avoid;
+    }
+
+    h2.section-title {
+      font-size: 12pt;
+      line-height: 1.35;
+      font-weight: 700;
+      color: #1E40AF;
+      margin-top: 14pt;
+      margin-bottom: 6pt;
+      break-after: avoid;
+    }
+
+    h3.subsection-title {
+      font-size: 10.5pt;
+      line-height: 1.4;
+      font-weight: 700;
+      color: #0F172A;
+      margin-top: 10pt;
+      margin-bottom: 4pt;
+      break-after: avoid;
+    }
+
+    p {
+      margin-bottom: 7pt;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin: 4pt 0 9pt 16pt;
+    }
+
+    li {
+      margin-bottom: 3.5pt;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', 'Roboto Mono', ui-monospace, monospace;
+      font-size: 8.5pt;
+      background-color: #F1F5F9;
+      color: #0F172A;
+      padding: 1pt 3.5pt;
+      border-radius: 3pt;
+    }
+
+    /* Callout & Code Block */
+    .callout {
+      background-color: #EFF6FF;
+      border-left: 3.5pt solid #1E40AF;
+      border-radius: 4pt;
+      padding: 9pt 11pt;
+      margin: 9pt 0;
+      font-size: 9.5pt;
+      break-inside: avoid;
+    }
+
+    .callout strong {
+      color: #1E40AF;
+    }
+
+    .code-block {
+      background-color: #0F172A;
+      color: #E2E8F0;
+      font-family: 'JetBrains Mono', 'Roboto Mono', ui-monospace, monospace;
+      font-size: 8pt;
+      line-height: 1.45;
+      padding: 9pt 11pt;
+      border-radius: 6pt;
+      margin: 8pt 0 10pt;
+      white-space: pre-wrap;
+      word-break: break-word;
+      break-inside: avoid;
+    }
+
+    .code-caption {
+      font-size: 8.5pt;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 3pt;
+      break-after: avoid;
+    }
+
+    /* Daftar Isi / Daftar Gambar / Daftar Tabel */
+    .toc-list {
+      list-style: none;
+      margin: 0 0 12pt 0;
+    }
+
+    .toc-item {
+      display: flex;
+      align-items: baseline;
+      gap: 6pt;
+      margin-bottom: 4pt;
+      font-size: 9.5pt;
+    }
+
+    .toc-item--major {
+      font-weight: 700;
+      color: #0F172A;
+      margin-top: 5pt;
+    }
+
+    .toc-item--sub {
+      padding-left: 14pt;
+      color: #334155;
+      font-weight: 400;
+    }
+
+    .toc-dots {
+      flex: 1;
+      border-bottom: 1pt dotted #CBD5E1;
+      height: 0.7em;
+    }
+
+    .toc-page {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9pt;
+      font-weight: 600;
+      color: #1E40AF;
+      min-width: 18pt;
+      text-align: right;
+    }
+
+    /* Tabel Data Akademik */
+    .table-caption {
+      font-size: 9pt;
+      font-weight: 700;
+      color: #0F172A;
+      margin-top: 10pt;
+      margin-bottom: 4pt;
+      break-after: avoid;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10pt;
+      font-size: 8.6pt;
+      line-height: 1.42;
+    }
+
+    table.data-table thead th {
+      background-color: #0F172A;
+      color: #FFFFFF;
+      font-weight: 600;
+      text-align: left;
+      padding: 6pt 7pt;
+      border: 0.5pt solid #0F172A;
+    }
+
+    table.data-table thead th code {
+      background-color: rgba(255, 255, 255, 0.16);
+      color: #FFFFFF;
+    }
+
+    table.data-table tbody td {
+      padding: 5.5pt 7pt;
+      border: 0.5pt solid #CBD5E1;
+      vertical-align: top;
+      color: #1E293B;
+    }
+
+    table.data-table tbody tr:nth-child(even) td {
+      background-color: #F8FAFC;
+    }
+
+    table.data-table tr {
+      break-inside: avoid;
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 1.5pt 6pt;
+      border-radius: 4pt;
+      font-size: 8pt;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .status-pill--pass {
+      background-color: #F0FDF4;
+      color: #166534;
+      border: 0.5pt solid #BBF7D0;
+    }
+
+    .swatch {
+      display: inline-block;
+      width: 9pt;
+      height: 9pt;
+      border-radius: 2pt;
+      border: 0.5pt solid #94A3B8;
+      vertical-align: middle;
+      margin-right: 4pt;
+    }
+
+    /* Gambar / Tangkapan Layar */
+    figure.doc-figure {
+      margin: 9pt 0 12pt;
+      text-align: center;
+      break-inside: avoid;
+    }
+
+    figure.doc-figure img {
+      display: inline-block;
+      max-width: 100%;
+      max-height: 108mm;
+      width: auto;
+      height: auto;
+      border: 1pt solid #CBD5E1;
+      border-radius: 6pt;
+      box-shadow: 0 2pt 6pt rgba(15, 23, 42, 0.08);
+    }
+
+    figure.doc-figure.figure-mobile img {
+      max-height: 96mm;
+    }
+
+    .figure-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10pt;
+      align-items: start;
+      margin: 8pt 0 12pt;
+      break-inside: avoid;
+    }
+
+    .figure-pair figure.doc-figure {
+      margin: 0;
+    }
+
+    .figure-pair figure.doc-figure img {
+      max-height: 80mm;
+    }
+
+    figcaption {
+      margin-top: 5pt;
+      font-size: 8.6pt;
+      font-style: italic;
+      color: #475569;
+      text-align: center;
+    }
+
+    figcaption strong {
+      font-style: normal;
+      color: #0F172A;
+    }
+
+    .bib-list {
+      list-style: none;
+      margin: 6pt 0 0 0;
+    }
+
+    .bib-list li {
+      padding-left: 18pt;
+      text-indent: -18pt;
+      margin-bottom: 6pt;
+      font-size: 9.2pt;
+      line-height: 1.5;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================================
+       HALAMAN 1: SAMPUL (COVER)
+       ===================================================================== -->
+  <section class="cover-page">
+    <div class="cover-top">
+      <div class="cover-badge">Dokumentasi Proyek Akhir · Phase 2</div>
+      <p class="cover-course">Mata Kuliah: Interaksi Manusia dan Komputer (CIF63108 / CIF63109)</p>
+      <h1 class="cover-title">Implementasi Front-End Web Aplikasi Pencatatan Keuangan Mahasiswa "CoinKeeper"</h1>
+      <p class="cover-subtitle">
+        Penerjemahan Prototipe High-Fidelity Figma (<code>web-hi-fi</code>) ke Aplikasi Web Statis Berbasis HTML5, CSS3, dan JavaScript ES6+ dengan Keterlacakan Konsep IMK dan Standar Aksesibilitas WCAG 2.2 Level AA
+      </p>
+    </div>
+
+    <div class="cover-mid">
+      <p class="cover-meta-title">Identitas Proyek &amp; Penyusun</p>
+      <table class="cover-meta-table">
+        <tr>
+          <th>Nama Aplikasi / Proyek</th>
+          <td>CoinKeeper — Aplikasi Pencatatan dan Rancangan Keuangan Mahasiswa</td>
+        </tr>
+        <tr>
+          <th>Kelompok / Anggota</th>
+          <td>
+            1. 255150200111045 — Jonathan Simamora<br>
+            2. 255150200111048 — Joseph Mohr Dio Sinamo<br>
+            3. 255150207111071 — M. Reza Faris Al Faqih
+          </td>
+        </tr>
+        <tr>
+          <th>Semester</th>
+          <td>[Semester Ganjil / Genap — Tahun Akademik 2026/2027]</td>
+        </tr>
+        <tr>
+          <th>Institusi</th>
+          <td>[Program Studi Teknik Informatika] · Fakultas Ilmu Komputer, Universitas Brawijaya</td>
+        </tr>
+        <tr>
+          <th>Rujukan Desain Figma</th>
+          <td><code>Tugas-imk</code> · Halaman <code>web-hi-fi</code> (<code>node-id=124:2</code>, 45 frame desktop 1440×1024)</td>
+        </tr>
+        <tr>
+          <th>Tanggal Penyusunan</th>
+          <td>23 November 2026</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="cover-bottom">
+      [PROGRAM STUDI TEKNIK INFORMATIKA · FAKULTAS ILMU KOMPUTER]
+      <span>[UNIVERSITAS BRAWIJAYA · MALANG · 2026]</span>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       HALAMAN 2: DAFTAR ISI, DAFTAR GAMBAR, DAFTAR TABEL
+       ===================================================================== -->
+  <section class="toc-section">
+    <h1 class="chapter-title">Daftar Isi</h1>
+    <ul class="toc-list">
+      <li class="toc-item toc-item--major"><span>Bab 1. Pendahuluan</span><span class="toc-dots"></span><span class="toc-page" data-toc="bab-1">4</span></li>
+      <li class="toc-item toc-item--sub"><span>1.1 Latar Belakang</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-1-1">4</span></li>
+      <li class="toc-item toc-item--sub"><span>1.2 Domain Masalah dan Domain Solusi</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-1-2">4</span></li>
+      <li class="toc-item toc-item--sub"><span>1.3 Tujuan Pengembangan Front-End dan Ruang Lingkup</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-1-3">4</span></li>
+
+      <li class="toc-item toc-item--major"><span>Bab 2. Ringkasan Analisis dan Perancangan</span><span class="toc-dots"></span><span class="toc-page" data-toc="bab-2">6</span></li>
+      <li class="toc-item toc-item--sub"><span>2.1 Aktor dan Persona Pengguna</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-2-1">6</span></li>
+      <li class="toc-item toc-item--sub"><span>2.2 Daftar Use Case, Kebutuhan Fungsional, dan HTA</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-2-2">6</span></li>
+      <li class="toc-item toc-item--sub"><span>2.3 Arsitektur Informasi dan Tautan Desain Figma</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-2-3">7</span></li>
+
+      <li class="toc-item toc-item--major"><span>Bab 3. Teknologi dan Struktur Proyek</span><span class="toc-dots"></span><span class="toc-page" data-toc="bab-3">8</span></li>
+      <li class="toc-item toc-item--sub"><span>3.1 Tech Stack dan Justifikasi Arsitektur</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-3-1">8</span></li>
+      <li class="toc-item toc-item--sub"><span>3.2 Struktur Direktori Proyek dan Cara Menjalankan</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-3-2">9</span></li>
+      <li class="toc-item toc-item--sub"><span>3.3 Pemetaan Design Tokens ke CSS Custom Properties</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-3-3">9</span></li>
+
+      <li class="toc-item toc-item--major"><span>Bab 4. Implementasi Antarmuka</span><span class="toc-dots"></span><span class="toc-page" data-toc="bab-4">12</span></li>
+      <li class="toc-item toc-item--sub"><span>4.1 Layar 1: Dasbor Utama (<code>index.html</code>)</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-4-1">12</span></li>
+      <li class="toc-item toc-item--sub"><span>4.2 Layar 2: Catat Transaksi (<code>pages/catat-transaksi.html</code>)</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-4-2">13</span></li>
+      <li class="toc-item toc-item--sub"><span>4.3 Layar 3: Anggaran Kategori (<code>pages/anggaran.html</code>)</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-4-3">15</span></li>
+      <li class="toc-item toc-item--sub"><span>4.4 Layar 4: Laporan Bulanan (<code>pages/laporan.html</code>)</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-4-4">16</span></li>
+      <li class="toc-item toc-item--sub"><span>4.5 Layar 5: Rencana Tabungan (<code>pages/tabungan.html</code>)</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-4-5">16</span></li>
+      <li class="toc-item toc-item--sub"><span>4.6 Perbandingan Figma vs Implementasi &amp; Justifikasi Deviasi</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-4-6">17</span></li>
+
+      <li class="toc-item toc-item--major"><span>Bab 5. Penerapan Konsep Interaksi Manusia dan Komputer</span><span class="toc-dots"></span><span class="toc-page" data-toc="bab-5">19</span></li>
+      <li class="toc-item toc-item--sub"><span>5.1 Evolusi dan Pemilihan Gaya Interaksi (IMK 01)</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-5-1">19</span></li>
+      <li class="toc-item toc-item--sub"><span>5.2 Karakteristik Manusia sebagai Pengguna (IMK 02)</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-5-2">20</span></li>
+      <li class="toc-item toc-item--sub"><span>5.3 Karakteristik Komputer dan Kerangka Abowd &amp; Beale (IMK 03)</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-5-3">21</span></li>
+      <li class="toc-item toc-item--sub"><span>5.4 Triad Usabilitas Dix dan Eight Golden Rules Shneiderman (IMK 04)</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-5-4">21</span></li>
+      <li class="toc-item toc-item--sub"><span>5.5 HTA, Arsitektur Informasi, Hukum Fitts &amp; Hick, dan Web Semantik (IMK 05)</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-5-5">22</span></li>
+      <li class="toc-item toc-item--sub"><span>5.6 Desain Visual, Persepsi Kognitif, Atomic Design, FSM &amp; Micro-interactions (IMK 06)</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-5-6">22</span></li>
+      <li class="toc-item toc-item--sub"><span>5.7 Praktik Rekayasa Front-End Semantik, Aman, dan Aksesibel (IMK-10)</span><span class="toc-dots"></span><span class="toc-page" data-toc="sub-5-7">24</span></li>
+
+      <li class="toc-item toc-item--major"><span>Bab 6. Evaluasi Heuristik / Usability (10 Heuristik Nielsen)</span><span class="toc-dots"></span><span class="toc-page" data-toc="bab-6">25</span></li>
+      <li class="toc-item toc-item--major"><span>Bab 7. Pengujian Sistem</span><span class="toc-dots"></span><span class="toc-page" data-toc="bab-7">27</span></li>
+      <li class="toc-item toc-item--major"><span>Bab 8. Kendala dan Pengembangan Selanjutnya</span><span class="toc-dots"></span><span class="toc-page" data-toc="bab-8">29</span></li>
+      <li class="toc-item toc-item--major"><span>Bab 9. Penutup</span><span class="toc-dots"></span><span class="toc-page" data-toc="bab-9">29</span></li>
+      <li class="toc-item toc-item--major"><span>Daftar Pustaka</span><span class="toc-dots"></span><span class="toc-page" data-toc="daftar-pustaka">30</span></li>
+    </ul>
+
+    <h2 class="section-title" style="page-break-before: always;">Daftar Gambar</h2>
+    <ul class="toc-list">
+      <li class="toc-item"><span>Gambar 1. Tampilan Desktop Halaman Dasbor (<code>01 · Dasbor</code>)</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-1">12</span></li>
+      <li class="toc-item"><span>Gambar 2. Tampilan Mobile Responsif Halaman Dasbor (390×844)</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-2">13</span></li>
+      <li class="toc-item"><span>Gambar 3. Tampilan Desktop Halaman Catat Transaksi (<code>02 · Catat Transaksi</code>)</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-3">14</span></li>
+      <li class="toc-item"><span>Gambar 4. Modal Dialog Feedback "Transaksi tersimpan"</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-4">14</span></li>
+      <li class="toc-item"><span>Gambar 5. Modal Dialog Konfirmasi Destruktif "Hapus transaksi ini?"</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-5">14</span></li>
+      <li class="toc-item"><span>Gambar 6. Banner Inline "Urungkan" (Undo) dan Notifikasi Toast Pasca-Hapus</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-6">15</span></li>
+      <li class="toc-item"><span>Gambar 7. Tampilan Desktop Halaman Anggaran Kategori (<code>03 · Anggaran</code>)</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-7">15</span></li>
+      <li class="toc-item"><span>Gambar 8. Modal Dialog Ubah Batas Anggaran Kategori Hiburan</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-8">15</span></li>
+      <li class="toc-item"><span>Gambar 9. Grafik Pengeluaran November 2026 dengan Batas Anggaran per Kategori</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-9">16</span></li>
+      <li class="toc-item"><span>Gambar 10. Laporan Bulanan Periode September 2026 (Filter Aktif)</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-10">16</span></li>
+      <li class="toc-item"><span>Gambar 11. Tampilan Desktop Halaman Rencana Tabungan (<code>05 · Tabungan</code>)</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-11">17</span></li>
+      <li class="toc-item"><span>Gambar 12. Tampilan Mobile Responsif Halaman Rencana Tabungan (390×844)</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-12">17</span></li>
+      <li class="toc-item"><span>Gambar 13. Validasi Inline Tiga Dimensi dan Constraint Tombol Submit (IMK 02 &amp; IMK-10)</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-13">20</span></li>
+      <li class="toc-item"><span>Gambar 14. Pencegahan Error Setoran Melebihi Saldo Utama (KF-07 &amp; IMK 06)</span><span class="toc-dots"></span><span class="toc-page" data-toc="fig-14">23</span></li>
+    </ul>
+
+    <h2 class="section-title">Daftar Tabel</h2>
+    <ul class="toc-list">
+      <li class="toc-item"><span>Tabel 1. Ruang Lingkup Pengembangan Front-End CoinKeeper</span><span class="toc-dots"></span><span class="toc-page" data-toc="tbl-1">5</span></li>
+      <li class="toc-item"><span>Tabel 2. Pemetaan Use Case, Kebutuhan Fungsional, dan HTA ke Layar Web</span><span class="toc-dots"></span><span class="toc-page" data-toc="tbl-2">6</span></li>
+      <li class="toc-item"><span>Tabel 3. Pemetaan Design Tokens Warna dan Uji Kontras WCAG 2.2</span><span class="toc-dots"></span><span class="toc-page" data-toc="tbl-3">9</span></li>
+      <li class="toc-item"><span>Tabel 4. Skala Tipografi Modular (Major Third) dan Sistem Spasi 8-Titik</span><span class="toc-dots"></span><span class="toc-page" data-toc="tbl-4">10</span></li>
+      <li class="toc-item"><span>Tabel 5. Perbandingan Desain Figma (<code>web-hi-fi</code>) vs Implementasi &amp; Justifikasi Deviasi</span><span class="toc-dots"></span><span class="toc-page" data-toc="tbl-5">17</span></li>
+      <li class="toc-item"><span>Tabel 6. Peta Keterlacakan Konsep Materi IMK 01–06 dan IMK-10</span><span class="toc-dots"></span><span class="toc-page" data-toc="tbl-6">19</span></li>
+      <li class="toc-item"><span>Tabel 7. Penerapan Shneiderman's Eight Golden Rules pada Antarmuka CoinKeeper</span><span class="toc-dots"></span><span class="toc-page" data-toc="tbl-7">21</span></li>
+      <li class="toc-item"><span>Tabel 8. Hasil Evaluasi Heuristik Menggunakan 10 Heuristik Jakob Nielsen</span><span class="toc-dots"></span><span class="toc-page" data-toc="tbl-8">25</span></li>
+      <li class="toc-item"><span>Tabel 9. Checklist Pengujian Fungsional (Use Case &amp; Kebutuhan Fungsional)</span><span class="toc-dots"></span><span class="toc-page" data-toc="tbl-9">27</span></li>
+      <li class="toc-item"><span>Tabel 10. Hasil Pengujian Tata Letak Responsif dan Reflow (WCAG SC 1.4.10)</span><span class="toc-dots"></span><span class="toc-page" data-toc="tbl-10">28</span></li>
+      <li class="toc-item"><span>Tabel 11. Audit Aksesibilitas WCAG 2.2 Level AA, Keamanan DOM, dan Konsol</span><span class="toc-dots"></span><span class="toc-page" data-toc="tbl-11">28</span></li>
+    </ul>
+  </section>
+
+  <!-- =====================================================================
+       BAB 1. PENDAHULUAN
+       ===================================================================== -->
+  <section class="page-break">
+    <h1 id="bab-1" class="chapter-title">Bab 1. Pendahuluan</h1>
+
+    <h2 id="sub-1-1" class="section-title">1.1 Latar Belakang</h2>
+    <p>
+      Pengelolaan keuangan pribadi merupakan tantangan nyata bagi mahasiswa perguruan tinggi, khususnya mahasiswa perantau yang bergantung pada uang saku bulanan terbatas. Berdasarkan survei awal terhadap 32 responden mahasiswa yang terdokumentasi dalam dokumen <em>referensi.pdf</em>, sebanyak <strong>90,6%</strong> mahasiswa mengandalkan uang saku dari orang tua sebagai sumber pendanaan utama, <strong>53,2%</strong> mengaku pernah atau sangat sering mengalami kesulitan keuangan sebelum akhir bulan, dan <strong>68,7%</strong> jarang atau tidak pernah mencatat pengeluaran harian mereka.
+    </p>
+    <p>
+      Temuan kuantitatif tersebut diperkuat oleh hasil elisitasi wawancara pada <em>Laporan Proyek Akhir Tahap 1</em> terhadap dua mahasiswa S1 Teknik Informatika (Fahrizal Dwi Candra dan Mohammad Fahmi Alfahrezy). Kedua partisipan mengeluhkan bahwa aplikasi pembayaran digital (QRIS dan <em>e-wallet</em>) hanya menampilkan daftar mutasi mentah tanpa klasifikasi kategori mahasiswa maupun batas anggaran, sementara pencatatan manual di aplikasi catatan ponsel terasa melelahkan, mudah terlupa, dan tidak memberi umpan balik saat pengeluaran konsumtif mulai melampaui batas wajar.
+    </p>
+
+    <h2 id="sub-1-2" class="section-title">1.2 Domain Masalah dan Domain Solusi</h2>
+    <p>
+      Dari sudut pandang rekayasa Interaksi Manusia dan Komputer (IMK), kegagalan pencatatan keuangan mahasiswa berakar pada dua jurang interaksi: tingginya beban kognitif dan motorik saat memasukkan transaksi (<em>Gulf of Execution</em>) serta ketiadaan visibilitas kondisi keuangan secara seketika (<em>Gulf of Evaluation</em>). Tanpa patokan anggaran dan peringatan dini, pengguna baru menyadari pemborosan setelah saldo habis.
+    </p>
+    <p>
+      Sebagai solusi, dirancang <strong>CoinKeeper</strong>—aplikasi pencatatan dan pemantauan keuangan pribadi berbasis web khusus mahasiswa. Solusi ini menawarkan alur pencatatan cepat (target ≤ 3 langkah atau ≤ 10 detik), pembagian batas anggaran per kategori dengan peringatan bertingkat pada ambang 80% (<em>Hampir habis</em>) dan ≥ 100% (<em>Terlampaui</em>), visualisasi laporan bulanan berbasis grafik batang komparatif, serta pengelolaan target tabungan dengan validasi kecukupan saldo.
+    </p>
+
+    <h2 id="sub-1-3" class="section-title">1.3 Tujuan Pengembangan Front-End dan Ruang Lingkup</h2>
+    <p>
+      Pengembangan front-end ini bertujuan mewujudkan cetak biru antarmuka Figma halaman <code>web-hi-fi</code> menjadi situs web statis yang fungsional, responsif, dan terukur terhadap seluruh kaidah teori IMK yang dipelajari pada mata kuliah <em>Interaksi Manusia dan Komputer</em> (IMK 00–06 dan IMK-10). Tujuan spesifiknya meliputi:
+    </p>
+    <ul>
+      <li>Mentranslasikan 5 layar inti beserta seluruh state interaktif dan modal dialog pada kanvas <code>web-hi-fi</code> secara presisi ke dalam kode HTML5 semantik, CSS3 berbasis <em>Design Tokens</em>, dan JavaScript ES6+ murni.</li>
+      <li>Mengimplementasikan simulasi persistensi data lokal menggunakan <code>localStorage</code> agar seluruh operasi tambah, ubah, hapus, urungkan (<em>Undo</em>), filter periode, dan kalkulasi saldo/anggaran berjalan nyata secara sinkron antarhalaman.</li>
+      <li>Menjamin kepatuhan terhadap standar aksesibilitas W3C WCAG 2.2 Level AA, keandalan tata letak responsif hingga lebar viewport 320px (<em>Reflow</em>), serta keterlacakan eksplisit terhadap prinsip ergonomis IMK.</li>
+    </ul>
+
+    <p id="tbl-1" class="table-caption">Tabel 1. Ruang Lingkup Pengembangan Front-End CoinKeeper</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 50%;">Termasuk dalam Ruang Lingkup (IN-Scope)</th>
+          <th style="width: 50%;">Di Luar Ruang Lingkup (OUT-of-Scope)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            • Lima layar inti responsif (Dasbor, Catat Transaksi, Anggaran, Laporan, Tabungan).<br>
+            • Simulasi basis data dan persistensi klien berbasis <code>localStorage</code>.<br>
+            • Peringatan otomatis ambang anggaran 80% (<em>Hampir habis</em>) dan ≥ 100% (<em>Terlampaui</em>).<br>
+            • Visualisasi grafik batang bulanan dengan filter periode dan pengelompokan kategori.<br>
+            • Pengelolaan target tabungan beserta setoran manual tervalidasi saldo dan fitur <em>Undo</em>.
+          </td>
+          <td>
+            • Integrasi API otomatis dengan layanan m-banking, QRIS, atau e-wallet nyata.<br>
+            • Sistem autentikasi pengguna (login/registrasi) maupun penyimpanan basis data server.<br>
+            • Fitur transaksi pembayaran, pinjaman daring (<em>paylater</em>), atau investasi.<br>
+            • Aplikasi seluler native dan dukungan akun multi-pengguna atau keluarga.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =====================================================================
+       BAB 2. RINGKASAN ANALISIS DAN PERANCANGAN
+       ===================================================================== -->
+  <section class="page-break">
+    <h1 id="bab-2" class="chapter-title">Bab 2. Ringkasan Analisis dan Perancangan</h1>
+
+    <h2 id="sub-2-1" class="section-title">2.1 Aktor dan Persona Pengguna</h2>
+    <p>
+      Mengacu pada pemodelan kebutuhan dokumen <em>referensi.pdf</em> (Bab 3.1), sistem CoinKeeper melibatkan satu aktor utama, yaitu <strong>Mahasiswa</strong>, yang memiliki kewenangan penuh untuk memantau saldo, mencatat transaksi harian, menetapkan batas anggaran per kategori, mengevaluasi laporan bulanan, serta mengelola target tabungan.
+    </p>
+    <p>
+      Pada <em>Laporan Proyek Akhir Tahap 1</em>, karakteristik pengguna diwakili oleh persona <strong>Rizal</strong> (Mahasiswa S1 Teknik Informatika semester 4, anak kos perantau) yang mengharapkan pencatatan secepat mengirim pesan singkat serta pengalaman penggunaan yang tenang tanpa rasa dihakimi (<em>non-judgmental financial feedback</em>). Pada implementasi antarmuka <em>Hi-Fi</em> Figma dan website ini, identitas akun aktif pada bilah navigasi ditampilkan sebagai profil <strong>Faqih (Akun pribadi)</strong>.
+    </p>
+
+    <h2 id="sub-2-2" class="section-title">2.2 Daftar Use Case, Kebutuhan Fungsional, dan HTA</h2>
+    <p>
+      Seluruh alur interaksi situs web memetakan gabungan Use Case dari <em>referensi.pdf</em> (<code>UC-01</code> s.d. <code>UC-04</code>), Kebutuhan Fungsional (<code>KF-01</code> s.d. <code>KF-07</code>), serta enam tugas utama pada <em>Hierarchical Task Analysis</em> (HTA) di <em>Laporan Proyek Akhir Tahap 2</em>. Ringkasan pemetaan disajikan pada Tabel 2.
+    </p>
+
+    <p id="tbl-2" class="table-caption">Tabel 2. Pemetaan Use Case, Kebutuhan Fungsional, dan HTA ke Layar Web</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 15%;">Kode</th>
+          <th style="width: 27%;">Nama Use Case / Tugas</th>
+          <th style="width: 18%;">Layar Web Target</th>
+          <th style="width: 40%;">Ringkasan Perilaku Sistem &amp; Aturan Validasi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>HTA-T1 &amp; T4</strong></td>
+          <td>Memantau Kondisi Keuangan &amp; Peringatan Dini</td>
+          <td><code>index.html</code><br>(01 · Dasbor)</td>
+          <td>Menghitung saldo utama, total pengeluaran bulan aktif, sisa anggaran, 4 transaksi terakhir, serta menampilkan kartu <em>Perlu perhatian</em> untuk pos ≥ 80% dan ≥ 100%.</td>
+        </tr>
+        <tr>
+          <td><strong>UC-01</strong><br>(<code>KF-01</code>, <code>KF-02</code>, HTA-T3)</td>
+          <td>Mencatat &amp; Menghapus Transaksi Harian</td>
+          <td><code>pages/catat-transaksi.html</code></td>
+          <td>Memilih jenis (<em>Pengeluaran/Pemasukan</em>), mengisi nominal valid (&gt; 0), memilih 1 dari 7 chip kategori, tanggal, dan catatan. Menyimpan ke <code>localStorage</code>, menampilkan modal konfirmasi, serta mendukung hapus dengan modal konfirmasi + <em>Urungkan</em>.</td>
+        </tr>
+        <tr>
+          <td><strong>UC-03</strong><br>(<code>KF-04</code>, <code>KF-05</code>, HTA-T2 &amp; T4)</td>
+          <td>Menetapkan &amp; Memantau Batas Anggaran</td>
+          <td><code>pages/anggaran.html</code></td>
+          <td>Menampilkan 5 kartu batas kategori (<em>Makan, Belanja, Hiburan, Transport, Tagihan</em>), mengubah batas nominal lewat modal dialog, menghitung ulang progres dan status (<em>Aman</em> &lt; 80%, <em>Hampir habis</em> 80–99%, <em>Terlampaui</em> ≥ 100%), serta memberi peringatan.</td>
+        </tr>
+        <tr>
+          <td><strong>UC-02</strong><br>(<code>KF-03</code>, HTA-T6)</td>
+          <td>Melihat Laporan Pengeluaran Bulanan</td>
+          <td><code>pages/laporan.html</code></td>
+          <td>Menyaring data periode (<code>Sep</code>, <code>Okt</code>, <code>Nov</code> 2026), menampilkan grafik batang per kategori beserta garis batas anggaran masing-masing, delta bulan lalu, kategori terbesar, serta <em>empty state</em> jika periode kosong.</td>
+        </tr>
+        <tr>
+          <td><strong>UC-04</strong><br>(<code>KF-06</code>, <code>KF-07</code>, HTA-T5)</td>
+          <td>Mengelola Target &amp; Setoran Tabungan</td>
+          <td><code>pages/tabungan.html</code></td>
+          <td>Menampilkan progres cincin donat tiap target (<em>Laptop baru</em>, <em>Dana darurat</em>), menyetor dana dengan validasi saldo utama mencukupi (<code>KF-07</code>), menambah target baru, serta menyediakan tombol <em>Urungkan</em>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 id="sub-2-3" class="section-title">2.3 Arsitektur Informasi dan Tautan Desain Figma</h2>
+    <p>
+      Mengikuti batasan arsitektur informasi pada <em>Laporan Proyek Akhir Tahap 1</em> dan materi <em>IMK 05</em>, struktur situs menggunakan <strong>hierarki dangkal (<em>shallow hierarchy</em>)</strong> dengan kedalaman menu tepat 1 level (5 menu utama sejajar tanpa submenu bersarang). Hal ini menghindarkan pengguna dari disorientasi kognitif saat berpindah antar tugas.
+    </p>
+    <div class="callout">
+      <strong>Sumber Kebenaran Desain (Figma <code>web-hi-fi</code>):</strong><br>
+      Tautan berkas Figma: <code>https://www.figma.com/design/FVCtagXn3FSiHgP9gGvrDz/Tugas-imk?node-id=124-2</code><br>
+      Halaman <code>web-hi-fi</code> terdiri atas <strong>45 frame desktop (1440×1024)</strong>: 5 frame layar inti pada baris pertama dan 40 frame state interaktif (variasi filter bulan <code>Sep</code>/<code>Okt</code>, 13 kombinasi jenis × kategori, 5 modal dialog konfirmasi/input, state pasca-hapus dengan tombol <em>Urungkan</em>, state pembaruan anggaran, serta state setoran dan target tabungan baru). Halaman <code>hi-fi</code> mobile (390×844) menjadi acuan adaptasi navigasi <em>bottom bar</em> pada layar kecil.
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       BAB 3. TEKNOLOGI DAN STRUKTUR PROYEK
+       ===================================================================== -->
+  <section class="page-break">
+    <h1 id="bab-3" class="chapter-title">Bab 3. Teknologi dan Struktur Proyek</h1>
+
+    <h2 id="sub-3-1" class="section-title">3.1 Tech Stack dan Justifikasi Arsitektur</h2>
+    <p>
+      Situs web CoinKeeper dibangun murni menggunakan standar web terbuka tanpa <em>framework</em>, tanpa perkakas <em>build/bundler</em>, dan tanpa ketergantungan pustaka JavaScript eksternal:
+    </p>
+    <ul>
+      <li><strong>HTML5 Semantik:</strong> Memanfaatkan elemen bermakna (<code>&lt;aside&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code>, dan elemen dialog bawaan <code>&lt;dialog&gt;</code>) untuk menjamin keterbacaan mesin dan teknologi bantu.</li>
+      <li><strong>CSS3 Modern (Custom Properties, Grid, Flexbox):</strong> Seluruh nilai warna, spasi, tipografi, radius, dan transisi disimpan sebagai <em>Design Tokens</em> pada <code>:root</code> di <code>css/variables.css</code>. CSS Grid digunakan untuk tata letak makro halaman, sedangkan Flexbox mengatur perataan komponen mikro.</li>
+      <li><strong>Vanilla JavaScript (ES6+ Classic Deferred Scripts):</strong> Seluruh skrip dimuat melalui atribut <code>defer</code> dalam pola modul IIFE di bawah namespace <code>window.CoinKeeper</code> (bukan <code>type="module"</code>). Pilihan arsitektur ini sangat krusial agar situs <strong>dapat dibuka langsung dengan mengklik ganda <code>index.html</code> (protokol <code>file://</code>)</strong> tanpa terblokir kebijakan CORS peramban dan tanpa memerlukan server lokal.</li>
+      <li><strong>Inline SVG Murni (Tanpa Chart.js / CDN Eksternal):</strong> Ikon antarmuka, grafik batang komparatif pada halaman Laporan, dan cincin progres donat pada halaman Tabungan dirender secara terprogram lewat <code>document.createElementNS</code>. Keputusannya dijustifikasi oleh kebutuhan kerja 100% luring (<em>offline-first</em>), bebas <em>bundle overhead</em>, serta kemampuan menggambar garis batas anggaran horizontal putus-putus tepat di atas masing-masing batang kategori sebagaimana desain Figma.</li>
+      <li><strong>Web Storage API (<code>localStorage</code>):</strong> Menyimpan status aplikasi di kunci <code>coinkeeper_state_v1</code> sehingga perubahan transaksi, anggaran, dan tabungan tetap bertahan antarhalaman dan saat halaman dimuat ulang.</li>
+    </ul>
+
+    <h2 id="sub-3-2" class="section-title">3.2 Struktur Direktori Proyek dan Cara Menjalankan</h2>
+    <div class="code-caption">Struktur berkas di dalam direktori <code>website/</code>:</div>
+    <pre class="code-block">website/
+├── index.html                      # Layar 01 · Dasbor Utama
+├── pages/
+│   ├── catat-transaksi.html        # Layar 02 · Form &amp; Riwayat Transaksi
+│   ├── anggaran.html               # Layar 03 · Batas Anggaran Kategori
+│   ├── laporan.html                # Layar 04 · Grafik &amp; Perbandingan Bulanan
+│   └── tabungan.html               # Layar 05 · Rencana &amp; Target Tabungan
+├── css/
+│   ├── variables.css               # Design Tokens (:root CSS custom properties)
+│   ├── base.css                    # Reset border-box, tipografi, shell responsif
+│   ├── components.css              # Komponen reusable BEM (tombol FSM, kartu, modal)
+│   └── pages/                      # Gaya spesifik per halaman (5 berkas CSS)
+├── js/
+│   ├── app.js                      # Inisialisasi shell global saat DOM siap
+│   ├── data/seed.js                # Data awal terkalibrasi angka Figma (Rp 1.430.000)
+│   ├── utils/
+│   │   ├── format.js               # Format Rupiah, status anggaran, helper DOM aman el()
+│   │   └── storage.js              # Persistensi localStorage, kalkulasi saldo &amp; CRUD
+│   ├── components/
+│   │   ├── icons.js                # Pabrik ikon SVG inline aman (tanpa innerHTML)
+│   │   ├── layout.js               # Render sidebar desktop, mobile topbar &amp; bottom nav
+│   │   ├── modal.js                # Pengendali aksesibel &lt;dialog&gt; (4 jalur keluar)
+│   │   └── toast.js                # Notifikasi toast, ARIA live region, &amp; banner Undo
+│   └── pages/                      # Pengendali logika masing-masing dari 5 halaman
+├── assets/
+│   └── favicon.svg                 # Ikon dompet merek CoinKeeper
+└── docs/
+    ├── 00-analysis.md              # Hasil riset dan pemetaan Phase 0
+    ├── screenshots/                # 14 tangkapan layar asli situs berjalan
+    ├── Dokumentasi_Front-End_Coin-Keeper.html
+    └── Dokumentasi_Front-End_Coin-Keeper.pdf</pre>
+
+    <p>
+      <strong>Cara Menjalankan Situs:</strong> Buka direktori <code>website/</code> pada pengelola berkas sistem operasi (Linux, Windows, atau macOS), lalu <strong>klik ganda berkas <code>index.html</code></strong> untuk membukanya di peramban modern (Google Chrome, Firefox, Edge, atau Safari). Untuk meriset data simulasi ke kondisi awal Figma, jalankan <code>localStorage.clear()</code> melalui DevTools konsol lalu muat ulang halaman.
+    </p>
+
+    <h2 id="sub-3-3" class="section-title">3.3 Pemetaan Design Tokens ke CSS Custom Properties</h2>
+    <p>
+      Sebagaimana diajarkan pada materi <em>IMK 06</em> dan modul <em>IMK-10</em> (Bab 5.3), tidak ada nilai warna atau spasi arbitrer (<em>magic values</em>) yang ditulis langsung di selektor komponen. Seluruh berkas CSS halaman dan komponen merujuk penuh pada variabel di <code>css/variables.css</code> dengan proporsi warna interior <strong>60% permukaan netral — 30% struktur/teks — 10% aksen primer</strong>.
+    </p>
+
+    <p id="tbl-3" class="table-caption">Tabel 3. Pemetaan Design Tokens Warna dan Uji Kontras W3C WCAG 2.2</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 19%;">Peran Visual</th>
+          <th style="width: 28%;">Token CSS (<code>variables.css</code>)</th>
+          <th style="width: 18%;">Nilai Warna</th>
+          <th style="width: 35%;">Penggunaan &amp; Kepatuhan Kontras WCAG 2.2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Navigasi Gelap</td>
+          <td><code>--color-sidebar-bg</code><br><code>--color-sidebar-text</code></td>
+          <td><span class="swatch" style="background:#0F172A"></span><code>#0F172A</code><br><span class="swatch" style="background:#CBD5E1"></span><code>#CBD5E1</code></td>
+          <td>Latar sidebar desktop &amp; <em>bottom bar</em> mobile; teks menu kontras tinggi di latar gelap.</td>
+        </tr>
+        <tr>
+          <td>60% Permukaan</td>
+          <td><code>--color-bg-canvas</code><br><code>--color-bg-surface</code><br><code>--color-bg-info-tint</code></td>
+          <td><span class="swatch" style="background:#F8FAFC"></span><code>#F8FAFC</code><br><span class="swatch" style="background:#FFFFFF"></span><code>#FFFFFF</code><br><span class="swatch" style="background:#EFF6FF"></span><code>#EFF6FF</code></td>
+          <td>Kanvas halaman utama, kartu komponen/modal putih, dan kartu catatan informatif biru lembut.</td>
+        </tr>
+        <tr>
+          <td>30% Teks &amp; Garis</td>
+          <td><code>--color-text-primary</code><br><code>--color-text-secondary</code><br><code>--color-border-input</code></td>
+          <td><span class="swatch" style="background:#0F172A"></span><code>#0F172A</code><br><span class="swatch" style="background:#475569"></span><code>#475569</code><br><span class="swatch" style="background:#CBD5E1"></span><code>#CBD5E1</code></td>
+          <td>Teks utama CR <strong>17,85:1 (AAA)</strong> dan teks sekunder CR <strong>7,58:1 (AAA)</strong> di atas <code>#FFFFFF</code>.</td>
+        </tr>
+        <tr>
+          <td>10% Aksen Primer</td>
+          <td><code>--color-action-primary</code><br><code>--color-action-hover</code><br><code>--color-action-active</code></td>
+          <td><span class="swatch" style="background:#1E40AF"></span><code>#1E40AF</code><br><span class="swatch" style="background:#1D4ED8"></span><code>#1D4ED8</code><br><span class="swatch" style="background:#172554"></span><code>#172554</code></td>
+          <td>Tombol aksi utama, menu aktif, chip terpilih, dan batang grafik; dengan teks putih CR <strong>8,72:1 (AAA)</strong>.</td>
+        </tr>
+        <tr>
+          <td>Status <em>Aman</em></td>
+          <td><code>--color-status-success-bg</code><br><code>--color-status-success-text</code></td>
+          <td><span class="swatch" style="background:#F0FDF4"></span><code>#F0FDF4</code><br><span class="swatch" style="background:#166534"></span><code>#166534</code></td>
+          <td>Badge status aman &amp; nominal pemasukan; CR <strong>6,81:1 (AA)</strong> + ikon centang (✓).</td>
+        </tr>
+        <tr>
+          <td>Status <em>Hampir habis</em></td>
+          <td><code>--color-status-warning-bg</code><br><code>--color-status-warning-text</code></td>
+          <td><span class="swatch" style="background:#FFFBEB"></span><code>#FFFBEB</code><br><span class="swatch" style="background:#92400E"></span><code>#92400E</code></td>
+          <td>Peringatan anggaran 80–99%; CR <strong>6,84:1 (AA)</strong> + ikon segitiga seru (⚠).</td>
+        </tr>
+        <tr>
+          <td>Status <em>Terlampaui</em> / Destruktif</td>
+          <td><code>--color-status-danger-bg</code><br><code>--color-status-danger-text</code><br><code>--color-status-danger-solid</code></td>
+          <td><span class="swatch" style="background:#FEF2F2"></span><code>#FEF2F2</code><br><span class="swatch" style="background:#991B1B"></span><code>#991B1B</code><br><span class="swatch" style="background:#B91C1C"></span><code>#B91C1C</code></td>
+          <td>Badge overbudget CR <strong>7,60:1 (AAA)</strong>; tombol hapus merah dengan teks putih CR <strong>6,47:1 (AA)</strong>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p id="tbl-4" class="table-caption">Tabel 4. Skala Tipografi Modular (Major Third) dan Sistem Spasi 8-Titik</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 24%;">Kategori Token</th>
+          <th style="width: 34%;">Nama Variabel &amp; Nilai</th>
+          <th style="width: 42%;">Peruntukan di Antarmuka</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Keluarga Huruf</td>
+          <td><code>--font-sans</code> (Plus Jakarta Sans / Inter)<br><code>--font-mono</code> (JetBrains Mono)</td>
+          <td>Teks antarmuka ber-<em>x-height</em> lega; angka Rupiah &amp; persentase memakai <code>tabular-nums</code> agar rata vertikal.</td>
+        </tr>
+        <tr>
+          <td>Skala Ukuran Teks</td>
+          <td><code>32px</code> (H1), <code>28px</code> (KPI), <code>20px</code> (H2),<br><code>18px</code> (H3), <code>16px</code> (Body), <code>14px</code> (Label), <code>12px</code> (Caption)</td>
+          <td>Ditentukan mengikuti rasio Major Third (1,250) dengan <code>clamp()</code> fluida pada judul utama agar nyaman di layar kecil.</td>
+        </tr>
+        <tr>
+          <td>Spasi 8-Point &amp; Target</td>
+          <td><code>4, 8, 12, 16, 20, 24, 32, 48px</code><br><code>--touch-target-min: 44px</code>; <code>--control-height: 48px</code></td>
+          <td>Jarak label ke input <code>4px</code>, padding kartu <code>16px</code>, gutter grid <code>24px</code>, tombol utama <code>48px</code> (WCAG 2.5.8).</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="code-caption">Cuplikan deklarasi aktual dari <code>website/css/variables.css</code>:</div>
+    <pre class="code-block">:root {
+  --color-sidebar-bg: #0F172A;
+  --color-bg-canvas: #F8FAFC;
+  --color-bg-surface: #FFFFFF;
+  --color-action-primary: #1E40AF;
+  --color-action-hover: #1D4ED8;
+  --color-status-success-text: #166534;
+  --color-status-warning-text: #92400E;
+  --color-status-danger-solid: #B91C1C;
+  --space-1: 4px; --space-4: 16px; --space-6: 24px; --space-8: 32px;
+  --control-height: 48px;
+  --duration-instant: 80ms; --duration-ui: 200ms;
+}</pre>
+  </section>
+
+  <!-- =====================================================================
+       BAB 4. IMPLEMENTASI ANTARMUKA
+       ===================================================================== -->
+  <section class="page-break">
+    <h1 id="bab-4" class="chapter-title">Bab 4. Implementasi Antarmuka</h1>
+    <p>
+      Seluruh 5 layar utama pada kanvas Figma <code>web-hi-fi</code> telah diimplementasikan menjadi halaman terpisah yang saling terhubung melalui navigasi persisten dan sinkronisasi data <code>localStorage</code>. Subbab berikut mendokumentasikan tiap halaman beserta tangkapan layar aktual dari peramban.
+    </p>
+
+    <h2 id="sub-4-1" class="section-title">4.1 Layar 1: Dasbor Utama (<code>index.html</code>)</h2>
+    <p>
+      Halaman Dasbor memenuhi tugas <strong>HTA-T1</strong> dan <strong>HTA-T4</strong> sebagai titik masuk utama mahasiswa untuk mengevaluasi posisi keuangan bulan berjalan dalam satu pandangan. Pada bagian atas terdapat header sapaan (<code>Halo, Faqih</code>) beserta tombol aksi primer <code>+ Tambah Transaksi</code>. Tiga kartu KPI di bawahnya menampilkan <strong>Saldo</strong> (<code>Rp 1.430.000</code>, badge <code>✓ Aman</code>), <strong>Pengeluaran bulan ini</strong> (<code>Rp 1.730.000</code>, badge <code>⚠ Hampir habis</code>), dan <strong>Sisa anggaran</strong> (<code>Rp 270.000</code> dari <code>Rp 2.000.000</code>). Grid utama 8+4 kolom memuat daftar 4 <strong>Transaksi terbaru</strong> di kiri serta panel samping <strong>Perlu perhatian</strong> (menyorot pos <em>Hiburan</em> yang terlampaui dan <em>Makan</em> yang mencapai 93%) dan <strong>Catatan ringkasan bulan berjalan</strong> di kanan.
+    </p>
+
+    <figure id="fig-1" class="doc-figure">
+      <img src="screenshots/01-dasbor-desktop.png" alt="Tampilan desktop halaman Dasbor CoinKeeper">
+      <figcaption><strong>Gambar 1.</strong> Tampilan desktop halaman Dasbor (<code>index.html</code>) dengan sidebar 240px, 3 kartu KPI, daftar transaksi terbaru, dan panel peringatan dini.</figcaption>
+    </figure>
+
+    <figure id="fig-2" class="doc-figure figure-mobile">
+      <img src="screenshots/01-dasbor-mobile.png" alt="Tampilan mobile halaman Dasbor CoinKeeper pada ukuran 390x844">
+      <figcaption><strong>Gambar 2.</strong> Adaptasi responsif halaman Dasbor pada viewport mobile (390×844) dengan topbar ringkas dan <em>sticky bottom navigation</em>.</figcaption>
+    </figure>
+
+    <h2 id="sub-4-2" class="section-title">4.2 Layar 2: Catat Transaksi (<code>pages/catat-transaksi.html</code>)</h2>
+    <p>
+      Halaman Catat Transaksi memenuhi <strong>UC-01</strong> (<code>KF-01</code>, <code>KF-02</code>) dan <strong>HTA Task 3</strong>. Kolom kiri menampung formulir pencatatan cepat dengan <em>Segmented Control</em> (<code>Pengeluaran</code> vs <code>Pemasukan</code>), kotak input nominal dengan pratinjau nilai Rupiah otomatis, 7 <em>Category Chips</em> interaktif, pemilih tanggal, catatan opsional, serta tombol <code>Batal</code> dan <code>Simpan transaksi</code>. Kolom kanan menampilkan seluruh <strong>Riwayat transaksi</strong> dengan tombol hapus 44×44px per baris, banner inline <strong>Urungkan</strong> (<em>Undo</em>) saat item baru dihapus, dan kartu panduan. Setelah penyimpanan sukses, muncul modal dialog konfirmasi dengan opsi lanjut mencatat atau kembali ke Dasbor.
+    </p>
+
+    <figure id="fig-3" class="doc-figure">
+      <img src="screenshots/02-catat-desktop.png" alt="Tampilan desktop halaman Catat Transaksi CoinKeeper">
+      <figcaption><strong>Gambar 3.</strong> Halaman Catat Transaksi (<code>pages/catat-transaksi.html</code>) dalam kondisi siap isi dengan tombol simpan terkunci sebelum nominal valid.</figcaption>
+    </figure>
+
+    <div class="figure-pair">
+      <figure id="fig-4" class="doc-figure">
+        <img src="screenshots/02-modal-saved.png" alt="Modal dialog Transaksi tersimpan">
+        <figcaption><strong>Gambar 4.</strong> Dialog konfirmasi <em>Transaksi tersimpan</em> setelah mencatat pengeluaran baru.</figcaption>
+      </figure>
+      <figure id="fig-5" class="doc-figure">
+        <img src="screenshots/02-modal-delete.png" alt="Modal dialog konfirmasi hapus transaksi">
+        <figcaption><strong>Gambar 5.</strong> Modal konfirmasi destruktif <em>Hapus transaksi ini?</em> dengan tombol merah tegas di kanan.</figcaption>
+      </figure>
+    </div>
+
+    <figure id="fig-6" class="doc-figure">
+      <img src="screenshots/02-undo-banner.png" alt="Banner Urungkan penghapusan transaksi dan toast notifikasi">
+      <figcaption><strong>Gambar 6.</strong> Status pasca-hapus menampilkan kartu hijau <em>Urungkan</em> (Undo) dan notifikasi <em>toast</em> di sudut kanan bawah.</figcaption>
+    </figure>
+
+    <h2 id="sub-4-3" class="section-title">4.3 Layar 3: Anggaran Kategori (<code>pages/anggaran.html</code>)</h2>
+    <p>
+      Halaman Anggaran Kategori memenuhi <strong>UC-03</strong> (<code>KF-04</code>, <code>KF-05</code>) serta <strong>HTA Task 2 &amp; 4</strong>. Lima kartu kategori (<em>Makan</em> 93%, <em>Belanja</em> 78%, <em>Hiburan</em> 120%, <em>Transport</em> 60%, dan <em>Tagihan</em> 77%) disusun dalam grid 2 kolom di sisi kiri lengkap dengan badge <em>Dual-Signifier</em>, meter progres berwarna semantik, rasio nominal, dan tombol <code>Ubah</code>. Panel samping kanan menyajikan <strong>Ringkasan bulanan</strong> (total terpakai <code>Rp 1.730.000 / Rp 2.000.000</code>, 87%) serta kartu peringatan merah <strong>Peringatan hiburan</strong> beserta tombol <code>Tinjau hiburan</code> yang menavigasi ke halaman Laporan. Menekan tombol <code>Ubah</code> membuka modal penyuntingan batas kategori yang memperbarui seluruh badge, progres, serta status peringatan secara langsung dan menyediakan banner <em>Urungkan perubahan</em>.
+    </p>
+
+    <div class="figure-pair">
+      <figure id="fig-7" class="doc-figure">
+        <img src="screenshots/03-anggaran-desktop.png" alt="Tampilan desktop halaman Anggaran Kategori">
+        <figcaption><strong>Gambar 7.</strong> Halaman Anggaran Kategori dengan indikator progres dan kartu peringatan pos <em>Terlampaui</em>.</figcaption>
+      </figure>
+      <figure id="fig-8" class="doc-figure">
+        <img src="screenshots/03-modal-budget.png" alt="Modal dialog ubah batas anggaran Hiburan">
+        <figcaption><strong>Gambar 8.</strong> Modal dialog <em>Ubah anggaran Hiburan</em> menampilkan posisi pengeluaran terkini dan input batas baru.</figcaption>
+      </figure>
+    </div>
+
+    <h2 id="sub-4-4" class="section-title">4.4 Layar 4: Laporan Bulanan (<code>pages/laporan.html</code>)</h2>
+    <p>
+      Halaman Laporan memenuhi <strong>UC-02</strong> (<code>KF-03</code>) dan <strong>HTA Task 6</strong>. Filter bulan pada pojok kanan atas memungkinkan mahasiswa berpindah antara periode <strong>Sep</strong>, <strong>Okt</strong>, dan <strong>Nov</strong> 2026 secara seketika. Grafik batang SVG murni memvisualisasikan pengeluaran per kategori dalam ribuan Rupiah, dilengkapi garis horizontal putus-putus sebagai penanda batas anggaran tiap kategori serta pewarnaan merah dan simbol <code>×</code> bagi kategori yang melebihi batas (<em>Hiburan</em> pada Nov dan Okt 2026). Pengguna dapat mengarahkan kursor atau menekan <code>Tab</code>/<code>Enter</code> pada tiap batang grafik untuk membaca rincian nominal dan sisa batas anggaran. Panel kanan menyajikan <strong>Perbandingan bulanan</strong> (delta terhadap bulan sebelumnya) dan <strong>Total laporan</strong>, sedangkan bagian bawah menampilkan <strong>Rincian laporan</strong> (pengeluaran terbesar dan kategori perlu perhatian).
+    </p>
+
+    <div class="figure-pair">
+      <figure id="fig-9" class="doc-figure">
+        <img src="screenshots/04-laporan-nov.png" alt="Laporan Bulanan periode November 2026">
+        <figcaption><strong>Gambar 9.</strong> Laporan November 2026 (<code>Rp 1.730.000</code>, turun <code>Rp 40.000</code> dari Okt, pos Hiburan melebihi batas).</figcaption>
+      </figure>
+      <figure id="fig-10" class="doc-figure">
+        <img src="screenshots/04-laporan-sep.png" alt="Laporan Bulanan periode September 2026">
+        <figcaption><strong>Gambar 10.</strong> Keadaan filter bulan September 2026 (<code>Rp 1.510.000</code>, seluruh kategori di bawah batas 100%).</figcaption>
+      </figure>
+    </div>
+
+    <h2 id="sub-4-5" class="section-title">4.5 Layar 5: Rencana Tabungan (<code>pages/tabungan.html</code>)</h2>
+    <p>
+      Halaman Tabungan memenuhi <strong>UC-04</strong> (<code>KF-06</code>, <code>KF-07</code>) dan <strong>HTA Task 5</strong>. Setiap kartu target tabungan (<em>Laptop baru</em> 12% terkumpul <code>Rp 1.200.000 / Rp 10.000.000</code> dan <em>Dana darurat</em> 23% terkumpul <code>Rp 700.000 / Rp 3.000.000</code>) dilengkapi cincin progres donat SVG, tenggat waktu, serta tombol <code>+ Setor</code>. Tombol <code>+ Target Baru</code> di header membuka modal pembuatan target tabungan tambahan. Seluruh aksi setoran terhubung dengan saldo utama sehingga nominal setoran yang melebihi saldo ditolak secara proaktif dan setiap setoran maupun pembuatan target baru dapat dibatalkan melalui banner <em>Urungkan</em>.
+    </p>
+
+    <div class="figure-pair">
+      <figure id="fig-11" class="doc-figure">
+        <img src="screenshots/05-tabungan-desktop.png" alt="Tampilan desktop halaman Rencana Tabungan">
+        <figcaption><strong>Gambar 11.</strong> Halaman Rencana Tabungan (<code>pages/tabungan.html</code>) dengan cincin progres SVG dan ringkasan saldo tersedia.</figcaption>
+      </figure>
+      <figure id="fig-12" class="doc-figure figure-mobile">
+        <img src="screenshots/05-tabungan-mobile.png" alt="Tampilan mobile halaman Rencana Tabungan">
+        <figcaption><strong>Gambar 12.</strong> Tampilan responsif halaman Rencana Tabungan pada lebar viewport mobile 390px.</figcaption>
+      </figure>
+    </div>
+
+    <h2 id="sub-4-6" class="section-title">4.6 Perbandingan Figma vs Implementasi &amp; Justifikasi Deviasi</h2>
+    <p>
+      Secara visual dan fungsional, tata letak 240px sidebar, lebar kontainer 1200px, proporsi grid 8+4 kolom, skema warna, ukuran target sentuh 48px, serta seluruh angka awal selaras dengan kanvas Figma <code>web-hi-fi</code>. Beberapa penyempurnaan teknis ditambahkan secara sadar demi memenuhi standar aksesibilitas dan rekayasa front-end di modul <em>IMK-10</em>, seperti dirangkum pada Tabel 5.
+    </p>
+
+    <p id="tbl-5" class="table-caption">Tabel 5. Perbandingan Desain Figma (<code>web-hi-fi</code>) vs Implementasi Web &amp; Justifikasi Deviasi</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 24%;">Aspek / Komponen</th>
+          <th style="width: 34%;">Spesifikasi pada Figma</th>
+          <th style="width: 42%;">Implementasi Aktual &amp; Justifikasi Teknis</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Aksesibilitas Navigasi &amp; Fokus</td>
+          <td>Tidak menampilkan tautan lompat (<em>skip link</em>) maupun indikator <code>aria-live</code> visual pada kanvas statis.</td>
+          <td>Ditambahkan <code>.skip-link</code> ("Lewati ke konten utama") dan wadah <code>aria-live="polite"</code> agar memenuhi WCAG SC 2.4.1 &amp; SC 4.1.3 sesuai modul <em>IMK-10</em>.</td>
+        </tr>
+        <tr>
+          <td>Validasi Form &amp; State Error</td>
+          <td>Kanvas menampilkan kondisi input valid/terisi; tidak menampilkan state pesan kesalahan inline.</td>
+          <td>Ditambahkan validasi 3 fase (tanda wajib <code>*</code>, pratinjau format Rupiah langsung, pesan error 3 dimensi via <code>aria-describedby</code>, dan penguncian tombol <em>disabled</em>).</td>
+        </tr>
+        <tr>
+          <td>Dialog Setor Tabungan</td>
+          <td>Menampilkan nama target dan input nominal setoran.</td>
+          <td>Ditambahkan info <em>Saldo utama tersedia</em> di deskripsi dialog serta blokir setoran &gt; saldo guna memenuhi <code>KF-07</code> dan mencegah error sebelum klik simpan.</td>
+        </tr>
+        <tr>
+          <td>Grafik Batang Laporan</td>
+          <td>Grafik statis dengan rentang sumbu Y tetap <code>0–800</code> (dalam ribuan).</td>
+          <td>Dibangun memakai inline SVG dinamis yang dapat menyesuaikan skala Y otomatis jika pengguna menambah pengeluaran &gt; Rp 800.000 serta mendukung sorotan <code>Tab</code>/<code>Enter</code>.</td>
+        </tr>
+        <tr>
+          <td>Tampilan Layar Kecil (320px)</td>
+          <td><code>web-hi-fi</code> dirancang pada 1440px, sedangkan <code>hi-fi</code> mobile pada 390px.</td>
+          <td>Menerapkan media query bertingkat sehingga navigasi beralih ke <em>bottom bar</em> &lt; 1024px dan tumpukan satu kolom rapi hingga lebar minimal 320px tanpa scroll horizontal.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =====================================================================
+       BAB 5. PENERAPAN KONSEP IMK
+       ===================================================================== -->
+  <section class="page-break">
+    <h1 id="bab-5" class="chapter-title">Bab 5. Penerapan Konsep Interaksi Manusia dan Komputer</h1>
+    <p>
+      Bab ini memetakan seluruh landasan teori pada bahan ajar perkuliahan (<em>IMK 01</em> s.d. <em>IMK 06</em> dan <em>IMK-10</em>) ke bukti implementasi konkret pada kode sumber maupun antarmuka CoinKeeper.
+    </p>
+
+    <p id="tbl-6" class="table-caption">Tabel 6. Peta Keterlacakan Konsep Materi IMK 01–06 dan IMK-10 pada Website CoinKeeper</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 14%;">Modul</th>
+          <th style="width: 34%;">Konsep Teori Utama</th>
+          <th style="width: 52%;">Lokasi &amp; Bukti Penerapan di Website</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>IMK 01</strong></td>
+          <td>Evolusi Gaya Interaksi (Menu, Form Fill-in, WIMP/GUI, Web &amp; Mobile)</td>
+          <td>Kombinasi navigasi menu 5 layar (<code>layout.js</code>), formulir terstruktur <code>catat-transaksi.html</code>, manipulasi langsung via chip/segmented, dan responsif <em>bottom nav</em>.</td>
+        </tr>
+        <tr>
+          <td><strong>IMK 02</strong></td>
+          <td><em>Working Memory</em>, <em>Recognition over Recall</em>, <em>Slips vs Mistakes</em>, <em>Gulfs</em></td>
+          <td>7 chip kategori tampak serentak, label persisten di atas input, dialog konfirmasi hapus terpisah dari kontrol form, dan pesan error 3 dimensi (Gambar 13).</td>
+        </tr>
+        <tr>
+          <td><strong>IMK 03</strong></td>
+          <td>Kerangka Interaksi Abowd &amp; Beale &amp; Karakteristik Perangkat I/O</td>
+          <td>Alur <em>Articulation–Performance–Presentation–Observation</em> &lt; 200ms; kompatibel papan ketik (<code>Tab/Esc/Enter</code>), tetikus, dan sentuhan mobile ≥ 44px.</td>
+        </tr>
+        <tr>
+          <td><strong>IMK 04</strong></td>
+          <td>Triad Usabilitas Dix &amp; <em>Eight Golden Rules</em> Shneiderman</td>
+          <td>Konsistensi token CSS, umpan balik instan &amp; closure dialog tersimpan, pencegahan error proaktif, tombol <em>Urungkan</em> (Undo), dan 4 jalur keluar modal (Tabel 7).</td>
+        </tr>
+        <tr>
+          <td><strong>IMK 05</strong></td>
+          <td>HTA, IA (≤ 5 layar), Hukum Fitts &amp; Hick, Pemetaan Web Semantik</td>
+          <td>Hierarki datar 5 layar, CTA 48px penuh kolom, pemecahan pilihan via <em>Segmented Control</em> (n=2, n=3) &amp; chip (n=7), dan landmark HTML5 murni.</td>
+        </tr>
+        <tr>
+          <td><strong>IMK 06</strong></td>
+          <td><em>Pre-attentive</em>, Pola Scanning, Gestalt, 60-30-10, WCAG <em>Dual-Signifier</em>, Atomic Design, FSM, Saffer</td>
+          <td>Pola Z/F/Layer-Cake, badge ikon+warna+teks, tombol 6-state FSM, dialog destruktif 4 elemen, mikro-interaksi 80ms/200ms, dan validasi saldo <code>KF-07</code> (Gambar 14).</td>
+        </tr>
+        <tr>
+          <td><strong>IMK-10</strong></td>
+          <td>Semantik bebas <em>div soup</em>, Reflow 320px, Validasi 3 fase, Keamanan DOM bebas XSS, <code>aria-live</code></td>
+          <td>Universal <code>border-box</code>, helper <code>el()</code> memakai <code>textContent</code> (nol <code>innerHTML</code>), fokus otomatis ke field error pertama, dan audit kontras &amp; ARIA.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 id="sub-5-1" class="section-title">5.1 Evolusi dan Pemilihan Gaya Interaksi (IMK 01)</h2>
+    <p>
+      Materi <em>IMK 01</em> (merujuk Dix et al., 2004; Shneiderman et al., 2016) menjelaskan bahwa tidak ada satu gaya interaksi tunggal yang unggul untuk semua konteks; pemilihan gaya harus disesuaikan dengan profil pengguna dan jenis tugas. Pada CoinKeeper, antarmuka memadukan empat gaya interaksi modern secara harmonis:
+    </p>
+    <ul>
+      <li><strong>Menu-Driven Interface:</strong> Diterapkan pada bilah navigasi samping desktop (<code>.sidebar</code>) dan bilah navigasi bawah mobile (<code>.bottom-nav</code>) untuk memindahkan fokus di antara 5 modul tugas utama tanpa perlu mengetik perintah apa pun.</li>
+      <li><strong>Form Fill-in &amp; Menu Terbatas:</strong> Diterapkan pada halaman <code>Catat Transaksi</code> serta modal <em>Ubah Anggaran</em>, <em>Setor Tabungan</em>, dan <em>Target Baru</em> dengan tipe input terstruktur (<code>inputmode="numeric"</code>, <code>type="date"</code>) guna meminimalkan kesalahan entri.</li>
+      <li><strong>GUI (WIMP) &amp; Direct Manipulation Ringan:</strong> Batang grafik interaktif, tombol chip kategori satu-klik, dan modal dialog overlay dengan latar redup memberi pengalaman manipulasi langsung yang responsif.</li>
+      <li><strong>Web &amp; Mobile Interaction Style:</strong> Navigasi berbasis tautan HTML standar pada desktop bertransformasi menjadi navigasi sentuh ramah ibu jari (<em>thumb-zone friendly</em>) di bagian bawah layar pada viewport di bawah 1024px.</li>
+    </ul>
+
+    <h2 id="sub-5-2" class="section-title">5.2 Karakteristik Manusia sebagai Pengguna (IMK 02)</h2>
+    <p>
+      Berdasarkan model pemrosesan informasi manusia (Card, Moran, &amp; Newell, 1983) pada <em>IMK 02</em>, kapasitas <em>Working Memory</em> sangat terbatas dan rentan terhadap distraksi. Oleh karena itu, CoinKeeper memindahkan beban pengetahuan dari <em>Knowledge in the Head</em> ke <em>Knowledge in the World</em> melalui tiga mekanisme utama:
+    </p>
+    <ul>
+      <li><strong>Recognition over Recall:</strong> Pada formulir Catat Transaksi, ketujuh kategori mahasiswa ditampilkan langsung sebagai <em>Category Chips</em> (<em>Makan, Transport, Belanja, Hiburan, Tagihan, Pendidikan, Lainnya</em>) sehingga pengguna cukup mengenali dan mengklik, bukan mengingat kode kategori atau membuka dropdown tersembunyi.</li>
+      <li><strong>Label Persisten &amp; Memperkecil Gulf of Execution/Evaluation:</strong> Setiap label kolom diletakkan permanen di atas kotak input (<code>.form-label</code>), disertai pratinjau nilai Rupiah secara waktu-nyata (mis. <code>Setara Rp 50.000</code>) dan pembaruan instan pada saldo/badge status agar jurang eksekusi dan evaluasi tertutup seketika.</li>
+      <li><strong>Pencegahan Slips dan Mistakes (Norman, 2013):</strong> Kesalahan eksekusi (<em>slips</em>) dicegah dengan memberi ukuran tombol ikon hapus 44×44px di sisi kanan baris serta jarak antar tombol yang lega. Kesalahan pemahaman (<em>mistakes</em>) dicegah dengan tombol konfirmasi destruktif berlabel spesifik dan pesan error tiga dimensi (apa yang salah, mengapa salah, dan cara memperbaiki) seperti tampak pada Gambar 13.</li>
+    </ul>
+
+    <figure id="fig-13" class="doc-figure">
+      <img src="screenshots/02-catat-validation-error.png" alt="Contoh pesan error inline tiga dimensi dan tombol submit yang terkunci">
+      <figcaption><strong>Gambar 13.</strong> Bukti penerapan pencegahan <em>human error</em> (IMK 02 &amp; IMK-10): pesan error tiga dimensi dengan <code>aria-invalid="true"</code> serta tombol <em>Simpan transaksi</em> dalam status <em>disabled</em>.</figcaption>
+    </figure>
+
+    <h2 id="sub-5-3" class="section-title">5.3 Karakteristik Komputer dan Kerangka Abowd &amp; Beale (IMK 03)</h2>
+    <p>
+      Mengacu pada kerangka interaksi empat komponen Abowd &amp; Beale (User, Input, System, Output) dalam <em>IMK 03</em>, CoinKeeper mengoptimalkan empat tahap penerjemahan interaksi secara konsisten:
+    </p>
+    <ol>
+      <li><strong>Articulation (User → Input):</strong> Niat pengguna mencatat transaksi diterjemahkan dengan cepat melalui tombol pintas <code>+ Tambah Transaksi</code>, tab jenis 1-klik, dan papan angka virtual (<code>inputmode="numeric"</code>) di perangkat seluler.</li>
+      <li><strong>Performance (Input → System):</strong> Skrip sisi klien (<code>js/utils/storage.js</code>) memvalidasi masukan, menghitung ulang saldo tunai, persentase anggaran, dan selisih bulanan secara instan (&lt; 10ms) di memori lokal peramban.</li>
+      <li><strong>Presentation (System → Output):</strong> Hasil kalkulasi dirender dengan angka tabular sejajar, grafik batang SVG berbatas anggaran, dan indikator warna+ikon kontras tinggi.</li>
+      <li><strong>Observation (Output → User):</strong> Pengguna langsung mengamati perubahan badge (mis. dari <em>Terlampaui</em> menjadi <em>Hampir habis</em> saat batas anggaran dinaikkan) serta pesan status pada area <code>aria-live</code>.</li>
+    </ol>
+
+    <h2 id="sub-5-4" class="section-title">5.4 Triad Usabilitas Dix dan Eight Golden Rules Shneiderman (IMK 04)</h2>
+    <p>
+      Seluruh keputusan desain dialog berpedoman pada tiga pilar usabilitas Dix et al. (2004)—<strong>Learnability</strong> (istilah lokal Indonesia akrab mahasiswa, tata letak konsisten antar-5 halaman), <strong>Flexibility</strong> (navigasi penuh keyboard dan mekanisme pembatalan aksi), serta <strong>Robustness</strong> (validasi sebelum simpan dan konfirmasi penghapusan)—yang dijabarkan secara operasional melalui <em>Eight Golden Rules</em> Shneiderman pada Tabel 7.
+    </p>
+
+    <p id="tbl-7" class="table-caption">Tabel 7. Penerapan Shneiderman's Eight Golden Rules pada Antarmuka CoinKeeper</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 28%;">Golden Rule (Shneiderman)</th>
+          <th style="width: 72%;">Penerapan Konkret &amp; Bukti pada Kode / Halaman</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1. Strive for Consistency</td>
+          <td>Struktur sidebar/bottom-nav, posisi header/CTA, tinggi tombol 48px, serta palet <code>css/variables.css</code> seragam di kelima halaman.</td>
+        </tr>
+        <tr>
+          <td>2. Seek Universal Usability</td>
+          <td>Mendukung pengguna pemula lewat kartu panduan dan teks bantu statis, sekaligus pengguna mahir lewat navigasi papan ketik penuh (<code>Tab</code>, <code>Enter</code>, <code>Esc</code>) dan skip-link.</td>
+        </tr>
+        <tr>
+          <td>3. Offer Informative Feedback</td>
+          <td>Setiap klik memberi efek tekan 80ms; penyimpanan menampilkan modal konfirmasi; penghapusan dan pembaruan anggaran memicu <em>toast</em> serta pengumuman pembaca layar.</td>
+        </tr>
+        <tr>
+          <td>4. Design Dialogs to Yield Closure</td>
+          <td>Alur <em>Catat Transaksi</em> diakhiri secara tegas oleh modal dialog hijau <em>"Transaksi tersimpan"</em> dengan dua jalur lanjut jelas (<code>Lanjutkan</code> / <code>Ke dasbor</code>, Gambar 4).</td>
+        </tr>
+        <tr>
+          <td>5. Prevent Errors</td>
+          <td>Tombol simpan dinonaktifkan saat nominal kosong/nol; input nominal menyaring karakter non-angka secara otomatis; setoran melebihi saldo ditolak sebelum mutasi (Gambar 14).</td>
+        </tr>
+        <tr>
+          <td>6. Permit Easy Reversal of Actions</td>
+          <td>Tersedia tombol <code>Batal</code> di formulir/modal, 4 jalur tutup modal di <code>modal.js</code>, serta banner <code>Urungkan</code> (Undo) setelah menghapus transaksi, mengubah anggaran, menyetor, dan membuat target.</td>
+        </tr>
+        <tr>
+          <td>7. Keep Users in Control</td>
+          <td>Pengguna berinisiatif penuh memilih bulan laporan, mengubah batas anggaran kapan saja, dan menutup modal tanpa paksaan waktu otomatis yang memutus fokus.</td>
+        </tr>
+        <tr>
+          <td>8. Reduce Short-Term Memory Load</td>
+          <td>Label persisten, 7 chip kategori selalu terlihat, serta ringkasan pengeluaran/saldo saat ini ikut ditampilkan langsung di dalam deskripsi modal Ubah Anggaran &amp; Setor.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="code-caption">Cuplikan kode aktual 4 Jalur Keluar Mudah (Easy Exit) pada <code>website/js/components/modal.js</code>:</div>
+    <pre class="code-block">/* Jalur Keluar 1 &amp; 2: Tombol Tutup (X) dan Tombol Batal */
+dialogEl.querySelectorAll('[data-dialog-close]').forEach(function (btn) {
+  btn.addEventListener('click', close);
+});
+/* Jalur Keluar 3: Klik Backdrop Redup di luar panel modal */
+dialogEl.addEventListener('click', function (evt) {
+  if (evt.target === dialogEl) { close(); }
+});
+/* Jalur Keluar 4: Tombol Esc (native cancel + keydown fallback pada &lt;dialog&gt;) */
+dialogEl.addEventListener('cancel', function (evt) { evt.preventDefault(); close(); });
+dialogEl.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape' &amp;&amp; dialogEl.open) { evt.preventDefault(); close(); }
+});</pre>
+
+    <h2 id="sub-5-5" class="section-title">5.5 HTA, Arsitektur Informasi, Hukum Fitts &amp; Hick, dan Web Semantik (IMK 05)</h2>
+    <p>
+      Enam tugas pada dekomposisi HTA di <em>Laporan Tahap 2</em> dipetakan langsung ke 5 layar dengan kedalaman navigasi 1 level (<em>shallow IA</em>). Penerapan dua hukum ergonomi kognitif <em>IMK 05</em> (Yablonski, 2020) terlihat jelas pada dimensi kontrol:
+    </p>
+    <ul>
+      <li><strong>Hukum Fitts (<code>MT = a + b log₂(D/W + 1)</code>):</strong> Tombol CTA utama (<code>+ Tambah Transaksi</code>, <code>Simpan transaksi</code>, <code>+ Target Baru</code>, <code>+ Setor</code>) memiliki tinggi <code>48px</code> dan lebar penuh kontainer (<code>240px–328px</code>), sehingga indeks kesulitan gerakan (<em>Index of Difficulty</em>) sangat rendah.</li>
+      <li><strong>Hukum Hick (<code>RT = a + b log₂(n + 1)</code>):</strong> Opsi berjumlah kecil (<code>n = 2</code> jenis transaksi; <code>n = 3</code> bulan laporan) disajikan memakai <em>Segmented Control</em> agar tampak seketika; tujuh kategori (<code>n = 7</code>) disusun dalam grup chip teratur tanpa menggulung daftar panjang.</li>
+    </ul>
+
+    <div class="code-caption">Cuplikan struktur semantik HTML5 bebas <em>div soup</em> pada <code>website/index.html</code>:</div>
+    <pre class="code-block">&lt;body data-page="dasbor" data-root="." data-screen="1 / 5"&gt;
+  &lt;a href="#konten-utama" class="skip-link"&gt;Lewati ke konten utama&lt;/a&gt;
+  &lt;div class="app-shell"&gt;
+    &lt;aside id="app-sidebar" class="sidebar" aria-label="Bilah navigasi samping"&gt;&lt;/aside&gt;
+    &lt;div class="app-main"&gt;
+      &lt;main id="konten-utama" class="main-content" tabindex="-1"&gt;
+        &lt;header class="page-header"&gt;...&lt;/header&gt;
+        &lt;section class="dasbor-kpis" aria-label="Ringkasan kondisi keuangan"&gt;...&lt;/section&gt;
+        &lt;div class="dasbor-grid"&gt;
+          &lt;section class="card dasbor-recent"&gt;...&lt;/section&gt;
+          &lt;aside class="dasbor-aside"&gt;...&lt;/aside&gt;
+        &lt;/div&gt;
+        &lt;footer id="app-footer" class="page-footer"&gt;&lt;/footer&gt;
+      &lt;/main&gt;
+    &lt;/div&gt;
+    &lt;nav id="app-bottom-nav" class="bottom-nav" aria-label="Navigasi bawah mobile"&gt;&lt;/nav&gt;
+  &lt;/div&gt;
+&lt;/body&gt;</pre>
+
+    <h2 id="sub-5-6" class="section-title">5.6 Desain Visual, Persepsi Kognitif, Atomic Design, FSM &amp; Micro-interactions (IMK 06)</h2>
+    <p>
+      Implementasi visual menerjemahkan seluruh prinsip kognisi visual pada <em>IMK 06</em>:
+    </p>
+    <ul>
+      <li><strong>Pre-Attentive Processing (&lt; 250ms) &amp; Von Restorff Effect:</strong> Tombol biru <code>#1E40AF</code> dan batang/badge merah <code>#B91C1C</code> langsung menarik fokus mata di tengah permukaan netral <code>#FFFFFF</code>/<code>#F8FAFC</code>.</li>
+      <li><strong>Eye-Tracking Scanning Patterns:</strong> Halaman <em>Dasbor</em> dan <em>Tabungan</em> mengikuti <strong>Z-Pattern</strong> (merek kiri atas → aksi CTA kanan atas → ringkasan tengah → detail/setor bawah); <em>Catat Transaksi</em> dan <em>Laporan</em> mengikuti <strong>F-Pattern</strong>; sedangkan grid 5 kartu <em>Anggaran</em> memandu pembacaan cepat dengan <strong>Layer-Cake Pattern</strong>.</li>
+      <li><strong>Hukum Persepsi Gestalt:</strong> <em>Proximity</em> membedakan jarak label–input (<code>4px</code>) dari jarak antargrup (<code>16px–24px</code>); <em>Common Region</em> membungkus tiap entitas dalam kartu berbatas <code>#E2E8F0</code>; <em>Similarity</em> menyeragamkan semua badge status dan tombol aksi; serta <em>Figure-Ground</em> memisahkan modal aktif dari kanvas melalui backdrop gelap <code>rgba(21, 26, 37, 0.60)</code>.</li>
+      <li><strong>Dual-Signifier (Redundant Coding WCAG SC 1.4.1):</strong> Status anggaran tidak pernah bergantung pada warna saja—<em>Aman</em> menggabungkan hijau + ikon centang + teks; <em>Hampir habis</em> memadukan amber + ikon segitiga seru + teks; <em>Terlampaui</em> memadukan merah + ikon lingkaran seru + teks (serta simbol <code>×</code> pada grafik Laporan).</li>
+      <li><strong>Atomic Design &amp; 6-State FSM:</strong> Komponen dibangun bertingkat mulai dari Atom (ikon SVG, badge, input, tombol <code>.btn</code> 6 status), Molekul (<code>.form-group</code>, <code>.tx-item</code>, <code>.budget-card</code>, <code>.goal-card</code>), hingga Organisme (<code>.sidebar</code>, <code>.modal</code>, grafik SVG).</li>
+      <li><strong>Micro-interactions 4 Bagian Dan Saffer:</strong> Mematuhi ambang respons kognitif (Miller, 1968; Saffer, 2013): transisi hover/active berlangsung <strong>80ms (≤ 100ms)</strong> dan animasi pembukaan modal serta meter progres berlangsung <strong>200ms (150–300ms)</strong>.</li>
+    </ul>
+
+    <figure id="fig-14" class="doc-figure">
+      <img src="screenshots/05-modal-setor-error.png" alt="Validasi saldo tidak cukup pada modal Setor Tabungan">
+      <figcaption><strong>Gambar 14.</strong> Penerapan <em>Figure-Ground</em>, 4 Elemen Modal, dan validasi kendala saldo (<code>KF-07</code>) saat pengguna mencoba menyetor Rp 5.000.000 melebihi saldo Rp 1.430.000.</figcaption>
+    </figure>
+
+    <div class="code-caption">Cuplikan aturan CSS 6-State Finite State Machine tombol utama pada <code>website/css/components.css</code>:</div>
+    <pre class="code-block">.btn--primary { background-color: var(--color-action-primary); color: var(--color-action-text); }
+.btn--primary:hover:not(:disabled) { background-color: var(--color-action-hover); box-shadow: var(--shadow-hover); }
+.btn--primary:active:not(:disabled) { background-color: var(--color-action-active); transform: scale(0.98); }
+.btn:disabled { background-color: var(--color-action-disabled-bg); color: var(--color-action-disabled-text); cursor: not-allowed; }
+.btn--loading { pointer-events: none; opacity: 0.92; }</pre>
+
+    <h2 id="sub-5-7" class="section-title">5.7 Praktik Rekayasa Front-End Semantik, Aman, dan Aksesibel (IMK-10)</h2>
+    <p>
+      Berdasarkan modul praktikum <em>IMK-10</em>, implementasi kode menerapkan empat jaminan mutu rekayasa web: (1) universal <code>box-sizing: border-box</code> agar dimensi grid stabil tanpa meluap; (2) CSS Grid 2 dimensi untuk kerangka makro dan Flexbox untuk tata letak mikro dengan reflow mulus hingga 320px; (3) fokus otomatis ke kolom pertama yang gagal validasi; serta (4) <strong>keamanan DOM bebas Cross-Site Scripting (XSS)</strong> dengan melarang penggunaan <code>innerHTML</code> untuk data pengguna dan mewajibkan <code>textContent</code> lewat helper terpusat <code>CoinKeeper.fmt.el()</code> serta <code>document.createElementNS()</code>. Perubahan status dinamis diumumkan kepada pembaca layar melalui <code>aria-live="polite"</code> pada <code>toast.js</code>.
+    </p>
+
+    <div class="code-caption">Cuplikan fungsi pembentuk simpul DOM aman bebas XSS pada <code>website/js/utils/format.js</code>:</div>
+    <pre class="code-block">/* Helper DOM aman: teks selalu di-assign via textContent, tidak pernah innerHTML */
+function el(tag, attrs, children) {
+  const node = document.createElement(tag);
+  if (attrs) {
+    Object.keys(attrs).forEach(function (key) {
+      const val = attrs[key];
+      if (val === undefined || val === null || val === false) return;
+      if (key === 'className') node.className = val;
+      else if (key === 'text') node.textContent = val;
+      else node.setAttribute(key, val === true ? '' : String(val));
+    });
+  }
+  /* ... append child nodes atau textNode ... */
+  return node;
+}</pre>
+  </section>
+
+  <!-- =====================================================================
+       BAB 6. EVALUASI HEURISTIK / USABILITY
+       ===================================================================== -->
+  <section class="page-break">
+    <h1 id="bab-6" class="chapter-title">Bab 6. Evaluasi Heuristik / Usability (10 Heuristik Nielsen)</h1>
+    <p>
+      Inspeksi mandiri sistematis dilakukan terhadap seluruh alur website menggunakan sepuluh kaidah <em>Usability Heuristics</em> Jakob Nielsen (1994) sebagaimana dipelajari pada <em>IMK 04</em>. Ringkasan temuan dan solusi implementasi tercantum pada Tabel 8.
+    </p>
+
+    <p id="tbl-8" class="table-caption">Tabel 8. Hasil Evaluasi Heuristik Menggunakan 10 Heuristik Jakob Nielsen</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 24%;">Heuristik Nielsen</th>
+          <th style="width: 36%;">Aspek yang Dievaluasi</th>
+          <th style="width: 28%;">Solusi pada Website CoinKeeper</th>
+          <th style="width: 12%;">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>H1.</strong> Visibility of System Status</td>
+          <td>Apakah status saldo, progres anggaran, proses simpan, dan perubahan data langsung terlihat?</td>
+          <td>Badge status <em>Aman/Hampir habis/Terlampaui</em>, progress bar 200ms, spinner tombol <em>Menyimpan...</em>, modal sukses, toast, dan <code>aria-live</code>.</td>
+          <td><span class="status-pill status-pill--pass">Terpenuhi</span></td>
+        </tr>
+        <tr>
+          <td><strong>H2.</strong> Match Between System &amp; Real World</td>
+          <td>Apakah label memakai bahasa mahasiswa dan format mata uang alami Indonesia?</td>
+          <td>Seluruh salinan memakai Bahasa Indonesia alami (<em>Uang saku, Ojek kampus, Sisa anggaran, Setor</em>) dan format <code>Rp 1.430.000</code>.</td>
+          <td><span class="status-pill status-pill--pass">Terpenuhi</span></td>
+        </tr>
+        <tr>
+          <td><strong>H3.</strong> User Control &amp; Freedom</td>
+          <td>Apakah pengguna bebas membatalkan aksi salah dan keluar dari dialog tanpa terjebak?</td>
+          <td>Banner <code>Urungkan</code> pasca-hapus/ubah/setor/target baru, tombol <code>Batal</code>, serta 4 jalur keluar mudah modal (<code>×</code>, Batal, backdrop, <code>Esc</code>).</td>
+          <td><span class="status-pill status-pill--pass">Terpenuhi</span></td>
+        </tr>
+        <tr>
+          <td><strong>H4.</strong> Consistency &amp; Standards</td>
+          <td>Apakah ikon, posisi navigasi, dan konvensi warna konsisten di kelima layar?</td>
+          <td>Sidebar/bottom-nav identik di 5 halaman, penomoran halaman footer <code>1/5–5/5</code>, warna semantik konsisten via <code>variables.css</code>.</td>
+          <td><span class="status-pill status-pill--pass">Terpenuhi</span></td>
+        </tr>
+        <tr>
+          <td><strong>H5.</strong> Error Prevention</td>
+          <td>Apakah sistem mencegah input cacat atau tindakan merusak sebelum terjadi?</td>
+          <td>Tombol submit terkunci saat input kosong/nol, input menyaring huruf otomatis, modal konfirmasi spesifik sebelum hapus, dan blokir setoran &gt; saldo.</td>
+          <td><span class="status-pill status-pill--pass">Terpenuhi</span></td>
+        </tr>
+        <tr>
+          <td><strong>H6.</strong> Recognition Rather than Recall</td>
+          <td>Apakah pilihan terlihat di layar tanpa membebani ingatan antarhalaman?</td>
+          <td>7 chip kategori selalu tampil; deskripsi modal menampilkan saldo/batas aktif saat itu sehingga tidak perlu mengingat angka dari layar sebelumnya.</td>
+          <td><span class="status-pill status-pill--pass">Terpenuhi</span></td>
+        </tr>
+        <tr>
+          <td><strong>H7.</strong> Flexibility &amp; Efficiency of Use</td>
+          <td>Apakah tersedia pintasan dan alur cepat baik lewat tetikus, sentuhan, maupun papan ketik?</td>
+          <td>Tombol pintas <code>+ Tambah Transaksi</code> di Dasbor, default tanggal hari aktif, dan akses penuh keyboard (<code>Tab</code>, <code>Enter</code>, <code>Esc</code>) di seluruh komponen.</td>
+          <td><span class="status-pill status-pill--pass">Terpenuhi</span></td>
+        </tr>
+        <tr>
+          <td><strong>H8.</strong> Aesthetic &amp; Minimalist Design</td>
+          <td>Apakah informasi disajikan ringkas tanpa elemen dekoratif pengganggu fokus?</td>
+          <td>Proporsi warna 60-30-10 bersih, spasi lega 8-point grid, setiap layar hanya menampilkan metrik dan aksi yang relevan dengan tugas utama.</td>
+          <td><span class="status-pill status-pill--pass">Terpenuhi</span></td>
+        </tr>
+        <tr>
+          <td><strong>H9.</strong> Help Users Recognize, Diagnose &amp; Recover from Errors</td>
+          <td>Apakah pesan galat menjelaskan masalah dan solusi dengan bahasa manusia?</td>
+          <td>Pesan error 3 dimensi menjelaskan lokasi, batas yang dilanggar (mis. saldo Rp 1.430.000), dan instruksi perbaikan konkret.</td>
+          <td><span class="status-pill status-pill--pass">Terpenuhi</span></td>
+        </tr>
+        <tr>
+          <td><strong>H10.</strong> Help &amp; Documentation</td>
+          <td>Apakah terdapat panduan kontekstual ringkas di tempat pengguna membutuhkan?</td>
+          <td>Kartu panduan biru (<em>Catatan ringkasan</em>, <em>Panduan transaksi</em>, <em>Catatan tabungan</em>) dan <em>helper text</em> format angka di bawah tiap input.</td>
+          <td><span class="status-pill status-pill--pass">Terpenuhi</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =====================================================================
+       BAB 7. PENGUJIAN SISTEM
+       ===================================================================== -->
+  <section class="page-break">
+    <h1 id="bab-7" class="chapter-title">Bab 7. Pengujian Sistem</h1>
+
+    <h2 class="section-title">7.1 Pengujian Fungsional (Black Box &amp; Use Case Checklist)</h2>
+    <p>
+      Pengujian fungsional dilakukan secara otomatis menggunakan skrip verifikasi end-to-end berbasis Chrome DevTools Protocol (<code>verify_site.mjs</code>) pada seluruh halaman yang dibuka langsung melalui protokol <code>file://</code>. Kedua belas skenario pada Tabel 9 memverifikasi berfungsinya setiap Use Case dan Kebutuhan Fungsional.
+    </p>
+
+    <p id="tbl-9" class="table-caption">Tabel 9. Checklist Pengujian Fungsional End-to-End (Use Case → Skenario → Hasil)</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 10%;">ID Uji</th>
+          <th style="width: 15%;">Use Case / KF</th>
+          <th style="width: 31%;">Skenario Pengujian</th>
+          <th style="width: 32%;">Hasil Aktual yang Teramati</th>
+          <th style="width: 12%;">Hasil</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>UJ-01</strong></td>
+          <td>HTA-T1</td>
+          <td>Memuat <code>index.html</code> pada kondisi data awal.</td>
+          <td>Saldo <code>Rp 1.430.000</code>, Pengeluaran <code>Rp 1.730.000</code>, Sisa <code>Rp 270.000</code>, 4 transaksi, 2 peringatan.</td>
+          <td><span class="status-pill status-pill--pass">Lulus</span></td>
+        </tr>
+        <tr>
+          <td><strong>UJ-02</strong></td>
+          <td>UC-01 / KF-02</td>
+          <td>Mengisi nominal <code>0</code> lalu keluar dari kolom (<em>blur</em>).</td>
+          <td><code>aria-invalid="true"</code> aktif, pesan error 3 dimensi muncul, tombol simpan tetap <em>disabled</em>.</td>
+          <td><span class="status-pill status-pill--pass">Lulus</span></td>
+        </tr>
+        <tr>
+          <td><strong>UJ-03</strong></td>
+          <td>UC-01 / KF-01</td>
+          <td>Menambah pengeluaran <code>50000</code>, chip <code>Belanja</code>, catatan <code>Beli buku</code>.</td>
+          <td>Modal <em>Transaksi tersimpan</em> terbuka; riwayat bertambah menjadi 5 baris.</td>
+          <td><span class="status-pill status-pill--pass">Lulus</span></td>
+        </tr>
+        <tr>
+          <td><strong>UJ-04</strong></td>
+          <td>HTA-3.6 (H3)</td>
+          <td>Membuka dialog hapus lalu menekan tombol keyboard <code>Esc</code>.</td>
+          <td>Dialog tertutup aman tanpa menghapus transaksi.</td>
+          <td><span class="status-pill status-pill--pass">Lulus</span></td>
+        </tr>
+        <tr>
+          <td><strong>UJ-05</strong></td>
+          <td>HTA-3.6 (Undo)</td>
+          <td>Konfirmasi <em>Ya, Hapus Transaksi</em> lalu menekan <code>Urungkan</code>.</td>
+          <td>Daftar turun ke 4 item dengan banner Undo, lalu kembali ke 5 item setelah Undo.</td>
+          <td><span class="status-pill status-pill--pass">Lulus</span></td>
+        </tr>
+        <tr>
+          <td><strong>UJ-06</strong></td>
+          <td>Persistensi</td>
+          <td>Navigasi ke <code>index.html</code> setelah mencatat <code>Beli buku</code> Rp 50.000.</td>
+          <td>Saldo otomatis menjadi <code>Rp 1.380.000</code> dan pengeluaran menjadi <code>Rp 1.780.000</code>.</td>
+          <td><span class="status-pill status-pill--pass">Lulus</span></td>
+        </tr>
+        <tr>
+          <td><strong>UJ-07</strong></td>
+          <td>UC-03 / KF-04</td>
+          <td>Mengubah batas anggaran <code>Hiburan</code> menjadi <code>400000</code>.</td>
+          <td>Status Hiburan berubah dari <em>Terlampaui</em> (120%) ke <em>Hampir habis</em> (90%); kartu peringatan aman.</td>
+          <td><span class="status-pill status-pill--pass">Lulus</span></td>
+        </tr>
+        <tr>
+          <td><strong>UJ-08</strong></td>
+          <td>UC-03 (Undo)</td>
+          <td>Menekan <code>Urungkan perubahan</code> pada halaman Anggaran.</td>
+          <td>Batas Hiburan kembali ke <code>Rp 300.000</code> (120% <em>Terlampaui</em>).</td>
+          <td><span class="status-pill status-pill--pass">Lulus</span></td>
+        </tr>
+        <tr>
+          <td><strong>UJ-09</strong></td>
+          <td>UC-02 / KF-03</td>
+          <td>Berpindah filter bulan <code>Nov</code> → <code>Okt</code> → <code>Sep</code> di Laporan.</td>
+          <td>Total diperbarui: Nov <code>Rp 1.730.000</code> (-Rp 40.000), Okt <code>Rp 1.770.000</code> (+Rp 260.000), Sep <code>Rp 1.510.000</code> (-Rp 50.000).</td>
+          <td><span class="status-pill status-pill--pass">Lulus</span></td>
+        </tr>
+        <tr>
+          <td><strong>UJ-10</strong></td>
+          <td>UC-04 / KF-07</td>
+          <td>Menyetor <code>5000000</code> ke <em>Laptop baru</em> saat saldo <code>Rp 1.430.000</code>.</td>
+          <td>Pesan error <em>"Saldo tidak cukup..."</em> tampil dan tombol konfirmasi terkunci.</td>
+          <td><span class="status-pill status-pill--pass">Lulus</span></td>
+        </tr>
+        <tr>
+          <td><strong>UJ-11</strong></td>
+          <td>UC-04 / KF-06</td>
+          <td>Menyetor <code>300000</code> ke <em>Laptop baru</em> lalu klik <code>Urungkan setoran</code>.</td>
+          <td>Persentase naik 12% → 15%, total tabungan <code>Rp 2.200.000</code>, saldo tersedia <code>Rp 1.130.000</code>; lalu pulih pasca-Undo.</td>
+          <td><span class="status-pill status-pill--pass">Lulus</span></td>
+        </tr>
+        <tr>
+          <td><strong>UJ-12</strong></td>
+          <td>UC-04</td>
+          <td>Membuat target baru <code>Biaya KKN</code> Rp 2.000.000 lalu klik <code>Urungkan target</code>.</td>
+          <td>Kartu ke-3 muncul pada grid dan kembali menjadi 2 kartu setelah Undo.</td>
+          <td><span class="status-pill status-pill--pass">Lulus</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 class="section-title">7.2 Pengujian Responsif &amp; Aksesibilitas WCAG 2.2 Level AA</h2>
+    <p>
+      Seluruh kelima halaman diuji pada empat ukuran viewport representatif (Desktop 1440×1024, Tablet 768×1024, Mobile 390×844, dan Ambang Reflow 320×800) serta diaudit kelengkapan semantik, kontrol aksesibel, dan kebersihan konsol peramban.
+    </p>
+
+    <p id="tbl-10" class="table-caption">Tabel 10. Hasil Pengujian Tata Letak Responsif dan Reflow (<code>scrollWidth ≤ innerWidth</code>)</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 28%;">Halaman Diuji</th>
+          <th style="width: 18%;">Desktop (1440px)</th>
+          <th style="width: 18%;">Tablet (768px)</th>
+          <th style="width: 18%;">Mobile (390px)</th>
+          <th style="width: 18%;">Reflow (320px)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>01 · Dasbor</code> (<code>index.html</code>)</td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+        </tr>
+        <tr>
+          <td><code>02 · Catat Transaksi</code></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+        </tr>
+        <tr>
+          <td><code>03 · Anggaran</code></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+        </tr>
+        <tr>
+          <td><code>04 · Laporan</code></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+        </tr>
+        <tr>
+          <td><code>05 · Tabungan</code></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+          <td><span class="status-pill status-pill--pass">0 Overflow</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p id="tbl-11" class="table-caption">Tabel 11. Audit Aksesibilitas WCAG 2.2 Level AA, Keamanan DOM, dan Konsol Peramban</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 34%;">Parameter Audit</th>
+          <th style="width: 46%;">Cakupan Pemeriksaan</th>
+          <th style="width: 20%;">Hasil Audit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Deklarasi Bahasa &amp; Hierarki Heading</td>
+          <td>Atribut <code>&lt;html lang="id"&gt;</code> dan tepat 1 elemen <code>&lt;h1&gt;</code> per halaman.</td>
+          <td><span class="status-pill status-pill--pass">5 / 5 Lulus</span></td>
+        </tr>
+        <tr>
+          <td>Bypass Blocks &amp; Landmark Utama</td>
+          <td>Keberadaan <code>.skip-link</code> menuju <code>&lt;main id="konten-utama"&gt;</code>.</td>
+          <td><span class="status-pill status-pill--pass">5 / 5 Lulus</span></td>
+        </tr>
+        <tr>
+          <td>Pelabelan Formulir &amp; Urutan Fokus</td>
+          <td>Seluruh <code>&lt;input&gt;</code> memiliki <code>&lt;label for&gt;</code>; tidak ada <code>tabindex &gt; 0</code>.</td>
+          <td><span class="status-pill status-pill--pass">0 Pelanggaran</span></td>
+        </tr>
+        <tr>
+          <td>Pengumuman Dinamis (ARIA Live)</td>
+          <td>Keberadaan region <code>aria-live="polite"</code> untuk perubahan status dan toast.</td>
+          <td><span class="status-pill status-pill--pass">5 / 5 Lulus</span></td>
+        </tr>
+        <tr>
+          <td>Keamanan DOM &amp; Konsistensi Token CSS</td>
+          <td>Pencarian statis <code>innerHTML</code>, <code>type="module"</code>, dan hex <em>hard-coded</em> di luar <code>variables.css</code>.</td>
+          <td><span class="status-pill status-pill--pass">0 Temuan</span></td>
+        </tr>
+        <tr>
+          <td>Konsol &amp; Runtime Exceptions (<code>file://</code>)</td>
+          <td>Log error konsol &amp; exception tidak tertangani selama seluruh sesi uji E2E.</td>
+          <td><span class="status-pill status-pill--pass">0 Error</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =====================================================================
+       BAB 8. KENDALA DAN PENGEMBANGAN SELANJUTNYA
+       ===================================================================== -->
+  <section class="page-break">
+    <h1 id="bab-8" class="chapter-title">Bab 8. Kendala dan Pengembangan Selanjutnya</h1>
+
+    <h2 class="section-title">8.1 Kendala dan Keterbatasan Implementasi</h2>
+    <p>
+      Sesuai batasan ruang lingkup pengembangan front-end statis tanpa server, terdapat beberapa keterbatasan pada versi implementasi saat ini:
+    </p>
+    <ul>
+      <li><strong>Persistensi Lokal Per Perangkat:</strong> Penyimpanan menggunakan <code>localStorage</code> peramban sehingga data keuangan hanya tersimpan pada satu peramban/perangkat yang sama dan akan kembali ke data awal apabila penyimpanan situs dibersihkan pengguna.</li>
+      <li><strong>Belum Tersedia Backend dan Autentikasi:</strong> Belum ada layanan API maupun basis data terpusat untuk sinkronisasi lintas perangkat (misal antara laptop dan ponsel mahasiswa).</li>
+      <li><strong>Belum Ada Pencatatan Otomatis Mutasi Bank/QRIS:</strong> Pengguna tetap memasukkan nominal pengeluaran secara manual karena integrasi ke penyedia layanan keuangan berada di luar lingkup proyek IMK.</li>
+      <li><strong>Data Periode Historis Terbatas:</strong> Dataset pembanding bulanan pada halaman Laporan difokuskan untuk tiga bulan prototipe (September, Oktober, dan November 2026).</li>
+    </ul>
+
+    <h2 class="section-title">8.2 Pengembangan Selanjutnya</h2>
+    <p>
+      Apabila aplikasi CoinKeeper dilanjutkan ke tahap produksi penuh, beberapa pengembangan lanjutan yang direkomendasikan adalah:
+    </p>
+    <ol>
+      <li><strong>Integrasi REST API &amp; Autentikasi Aman:</strong> Menghubungkan lapisan <code>storage.js</code> ke layanan backend agar mahasiswa dapat mengakses riwayat dan anggaran secara sinkron dari ponsel maupun laptop.</li>
+      <li><strong>Fitur Pencarian, Filter Riwayat, &amp; Ekspor Laporan:</strong> Menambahkan kolom pencarian autocomplete pada halaman Riwayat Transaksi apabila daftar telah melebihi 15 entri (sesuai aturan Hukum Hick pada <em>IMK 06</em>) serta fitur ekspor laporan bulanan ke PDF/CSV.</li>
+      <li><strong>Dukungan Mode Gelap (Dark Mode):</strong> Memanfaatkan arsitektur <code>css/variables.css</code> yang sudah terpisah untuk menambahkan dukungan tema gelap otomatis melalui <code>@media (prefers-color-scheme: dark)</code>.</li>
+      <li><strong>Pengujian Usabilitas Empiris (Think-Aloud &amp; SUS):</strong> Melaksanakan uji coba langsung kepada 5–10 partisipan mahasiswa menggunakan skenario tugas dan kuesioner <em>System Usability Scale</em> (SUS) untuk memvalidasi target waktu catat ≤ 10 detik secara empiris.</li>
+    </ol>
+
+    <!-- ===================================================================
+         BAB 9. PENUTUP
+         =================================================================== -->
+    <h1 id="bab-9" class="chapter-title" style="margin-top: 18pt;">Bab 9. Penutup</h1>
+    <p>
+      Pengembangan antarmuka web statis <strong>CoinKeeper</strong> telah berhasil menerjemahkan prototipe high-fidelity Figma (<code>web-hi-fi</code>) ke dalam situs web multi-halaman berbasis HTML5 semantik, CSS3 berbasis <em>Design Tokens</em>, dan JavaScript ES6+ murni yang dapat dijalankan langsung secara luring melalui berkas <code>index.html</code>. Seluruh lima layar inti, dialog konfirmasi, mekanisme pencegahan error, validasi saldo tabungan, fitur pemulihan aksi (<em>Urungkan</em>), grafik batang komparatif, serta adaptasi responsif hingga layar 320px terbukti berjalan fungsional tanpa kesalahan konsol.
+    </p>
+    <p>
+      Melalui pendokumentasian yang ketat antara teori perkuliahan (<em>IMK 01–06</em> dan <em>IMK-10</em>) dengan bukti kode dan tangkapan layar nyata, proyek ini membuktikan bahwa perancangan antarmuka yang berpusat pada manusia—dengan memperhatikan batas memori kerja, ergonomi ukuran target, kontras warna inklusif, dan kendali penuh pengguna—menghasilkan aplikasi keuangan mahasiswa yang tidak hanya rapi secara visual, tetapi juga aman, mudah dipelajari, dan aksesibel bagi semua kalangan.
+    </p>
+
+    <!-- ===================================================================
+         DAFTAR PUSTAKA
+         =================================================================== -->
+    <h1 id="daftar-pustaka" class="chapter-title" style="margin-top: 18pt;">Daftar Pustaka</h1>
+    <ul class="bib-list">
+      <li>Annett, J. (2003). Hierarchical task analysis. Dalam E. Hollnagel (Ed.), <em>Handbook of cognitive task design</em> (hlm. 67–82). Lawrence Erlbaum Associates.</li>
+      <li>Card, S. K., Moran, T. P., &amp; Newell, A. (1983). <em>The psychology of human-computer interaction</em>. Lawrence Erlbaum Associates.</li>
+      <li>Cooper, A., Reimann, R., Cronin, D., &amp; Noessel, C. (2014). <em>About face: The essentials of interaction design</em> (ed. ke-4). John Wiley &amp; Sons.</li>
+      <li>Dix, A., Finlay, J., Abowd, G. D., &amp; Beale, R. (2004). <em>Human-computer interaction</em> (ed. ke-3). Pearson Prentice Hall.</li>
+      <li>Frost, B. (2016). <em>Atomic design</em>. Brad Frost. https://atomicdesign.bradfrost.com/</li>
+      <li>Johnson, J. (2020). <em>Designing with the mind in mind: Simple guide to understanding user interface design guidelines</em> (ed. ke-3). Morgan Kaufmann.</li>
+      <li>Kelompok CoinKeeper. (2026a). <em>Laporan Proyek Akhir Interaksi Manusia dan Komputer Tahap 1: Analisis Kebutuhan Pengguna, Persona, dan Alur Tugas</em>. Fakultas Ilmu Komputer, Universitas Brawijaya.</li>
+      <li>Kelompok CoinKeeper. (2026b). <em>Laporan Proyek Akhir Interaksi Manusia dan Komputer Tahap 2: Pemodelan Tugas, Sistem Desain, dan Prototipe Antarmuka (CoinKeeper)</em>. Fakultas Ilmu Komputer, Universitas Brawijaya.</li>
+      <li>Kelompok CoinKeeper. (2025). <em>Dokumen Rekayasa Perangkat Lunak: Aplikasi Pencatatan Keuangan (referensi.pdf)</em>. Fakultas Ilmu Komputer, Universitas Brawijaya.</li>
+      <li>Kelompok Pengelola Mata Kuliah IMK. (2026). <em>Materi Perkuliahan IMK 00 s.d. IMK 06 &amp; Modul Pembelajaran Front-End Web (IMK-10)</em>. Fakultas Ilmu Komputer, Universitas Brawijaya.</li>
+      <li>Miller, R. B. (1968). Response time in man-computer conversational transactions. <em>Proceedings of the Fall Joint Computer Conference</em>, 267–277. ACM.</li>
+      <li>Nielsen, J. (1994). Enhancing the explanatory power of usability heuristics. <em>Proceedings of CHI '94</em>, 152–158. ACM.</li>
+      <li>Norman, D. A. (2013). <em>The design of everyday things</em> (ed. revisi). Basic Books.</li>
+      <li>Rosenfeld, L., Morville, P., &amp; Arango, J. (2015). <em>Information architecture: For the web and beyond</em> (ed. ke-4). O'Reilly Media.</li>
+      <li>Saffer, D. (2013). <em>Microinteractions: Designing with details</em>. O'Reilly Media.</li>
+      <li>Sharp, H., Preece, J., &amp; Rogers, Y. (2019). <em>Interaction design: Beyond human-computer interaction</em> (ed. ke-5). John Wiley &amp; Sons.</li>
+      <li>Shneiderman, B., Plaisant, C., Cohen, M., Jacobs, S., Elmqvist, N., &amp; Diakopoulos, N. (2016). <em>Designing the user interface: Strategies for effective human-computer interaction</em> (ed. ke-6). Pearson.</li>
+      <li>Tidwell, J., Brewer, C., &amp; Valencia, A. (2020). <em>Designing interfaces: Patterns for effective interaction design</em> (ed. ke-3). O'Reilly Media.</li>
+      <li>Ware, C. (2020). <em>Information visualization: Perception for design</em> (ed. ke-4). Morgan Kaufmann.</li>
+      <li>World Wide Web Consortium. (2023). <em>Web Content Accessibility Guidelines (WCAG) 2.2</em>. W3C Recommendation. https://www.w3.org/TR/WCAG22/</li>
+      <li>Yablonski, J. (2020). <em>Laws of UX: Using psychology to design better products &amp; services</em>. O'Reilly Media.</li>
+    </ul>
+  </section>
+
+</body>
+</html>
