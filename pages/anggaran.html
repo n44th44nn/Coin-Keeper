@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anggaran Kategori · CoinKeeper</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/anggaran.css">
+  <script defer src="../js/data/seed.js"></script>
+  <script defer src="../js/utils/format.js"></script>
+  <script defer src="../js/utils/storage.js"></script>
+  <script defer src="../js/components/icons.js"></script>
+  <script defer src="../js/components/layout.js"></script>
+  <script defer src="../js/components/modal.js"></script>
+  <script defer src="../js/components/toast.js"></script>
+  <script defer src="../js/app.js"></script>
+  <script defer src="../js/pages/anggaran.js"></script>
+</head>
+<body data-page="anggaran" data-root=".." data-screen="3 / 5">
+  <a href="#konten-utama" class="skip-link">Lewati ke konten utama</a>
+
+  <div class="app-shell">
+    <aside id="app-sidebar" class="sidebar" aria-label="Bilah navigasi samping"></aside>
+    <header id="app-mobile-topbar" class="mobile-topbar"></header>
+
+    <div class="app-main">
+      <main id="konten-utama" class="main-content" tabindex="-1">
+        <header class="page-header">
+          <div class="page-header__heading">
+            <h1 class="page-header__title">Anggaran Kategori</h1>
+            <p class="page-header__subtitle">Batasi pengeluaran konsumtif sebelum terlambat.</p>
+          </div>
+        </header>
+
+        <div class="anggaran-layout">
+          <section id="budget-cards-grid" class="anggaran-cards" aria-label="Daftar anggaran per kategori"></section>
+
+          <aside class="anggaran-aside" aria-label="Ringkasan dan peringatan anggaran">
+            <section class="card" aria-labelledby="judul-ringkasan-bulanan">
+              <h2 id="judul-ringkasan-bulanan" class="card__title">Ringkasan bulanan</h2>
+              <p id="summary-total-spent" class="anggaran-summary__value tabular-num">Rp 1.730.000</p>
+              <p id="summary-total-limit" class="card__subtitle">dari batas Rp 2.000.000</p>
+              <div class="anggaran-summary__bar">
+                <div class="progress-track" role="progressbar" id="summary-progress-track" aria-valuemin="0" aria-valuemax="100" aria-valuenow="87">
+                  <div id="summary-progress-fill" class="progress-fill progress-fill--hampir" style="width: 87%;"></div>
+                </div>
+              </div>
+              <div id="summary-status-badge" class="anggaran-summary__badge"></div>
+              <div class="anggaran-summary__cta">
+                <a href="laporan.html" class="btn btn--secondary btn--full">Lihat laporan</a>
+              </div>
+            </section>
+
+            <section id="anggaran-undo-banner" class="card card--success undo-banner" aria-live="polite" hidden></section>
+
+            <section id="anggaran-warning-card" class="card card--danger" aria-live="polite"></section>
+          </aside>
+        </div>
+
+        <footer id="app-footer" class="page-footer"></footer>
+      </main>
+    </div>
+
+    <nav id="app-bottom-nav" class="bottom-nav" aria-label="Navigasi bawah mobile"></nav>
+  </div>
+
+  <!-- Dialog Ubah Batas Anggaran -->
+  <dialog id="dialog-budget-edit" class="modal" aria-labelledby="dialog-budget-title" aria-describedby="dialog-budget-desc">
+    <div class="modal__inner">
+      <div class="modal__header">
+        <h2 id="dialog-budget-title" class="modal__title">Ubah anggaran</h2>
+        <button type="button" class="btn btn--icon" data-dialog-close aria-label="Tutup dialog">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="form-budget-edit" class="modal__body" novalidate>
+        <p id="dialog-budget-desc" class="modal__text"></p>
+        <div class="form-group">
+          <label for="input-budget-limit" class="form-label">
+            Batas baru (Rp) <span class="form-label__req" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="input-budget-limit"
+            name="limit"
+            type="text"
+            inputmode="numeric"
+            class="form-input tabular-num"
+            autocomplete="off"
+            required
+            aria-describedby="helper-budget-limit error-budget-limit"
+          >
+          <p id="helper-budget-limit" class="form-helper">Masukkan batas bulanan tanpa titik atau koma.</p>
+          <p id="error-budget-limit" class="form-error" role="alert" hidden></p>
+        </div>
+        <div class="modal__actions">
+          <button type="button" class="btn btn--secondary" data-dialog-close>Batal</button>
+          <button type="submit" id="btn-save-budget" class="btn btn--primary">Simpan batas</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+</body>
+</html>

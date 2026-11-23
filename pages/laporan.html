@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Bulanan · CoinKeeper</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/laporan.css">
+  <script defer src="../js/data/seed.js"></script>
+  <script defer src="../js/utils/format.js"></script>
+  <script defer src="../js/utils/storage.js"></script>
+  <script defer src="../js/components/icons.js"></script>
+  <script defer src="../js/components/layout.js"></script>
+  <script defer src="../js/components/toast.js"></script>
+  <script defer src="../js/app.js"></script>
+  <script defer src="../js/pages/laporan.js"></script>
+</head>
+<body data-page="laporan" data-root=".." data-screen="4 / 5">
+  <a href="#konten-utama" class="skip-link">Lewati ke konten utama</a>
+
+  <div class="app-shell">
+    <aside id="app-sidebar" class="sidebar" aria-label="Bilah navigasi samping"></aside>
+    <header id="app-mobile-topbar" class="mobile-topbar"></header>
+
+    <div class="app-main">
+      <main id="konten-utama" class="main-content" tabindex="-1">
+        <header class="page-header">
+          <div class="page-header__heading">
+            <h1 class="page-header__title">Laporan Bulanan</h1>
+            <p id="laporan-subtitle" class="page-header__subtitle">Pengeluaran per kategori · November 2026</p>
+          </div>
+          <div class="page-header__action laporan-month-filter">
+            <div class="segmented segmented--3" role="group" aria-label="Pilih periode bulan">
+              <button type="button" class="segmented__btn" data-month="2026-09" aria-pressed="false">Sep</button>
+              <button type="button" class="segmented__btn" data-month="2026-10" aria-pressed="false">Okt</button>
+              <button type="button" class="segmented__btn segmented__btn--active" data-month="2026-11" aria-pressed="true">Nov</button>
+            </div>
+          </div>
+        </header>
+
+        <div class="laporan-layout">
+          <div class="laporan-main">
+            <section class="card" aria-labelledby="judul-grafik-pengeluaran">
+              <h2 id="judul-grafik-pengeluaran" class="card__title">Grafik pengeluaran</h2>
+              <p class="card__subtitle">Dalam ribuan Rupiah</p>
+
+              <div id="laporan-chart-wrap" class="laporan-chart-wrap"></div>
+              <div id="laporan-chart-empty" class="empty-state laporan-chart-empty" hidden></div>
+
+              <div class="laporan-legend" aria-hidden="true">
+                <span class="laporan-legend__item">
+                  <span class="laporan-legend__dash"></span>
+                  <span>Batas anggaran per kategori</span>
+                </span>
+                <span class="laporan-legend__item">
+                  <span class="laporan-legend__over">&times;</span>
+                  <span>Melebihi batas anggaran</span>
+                </span>
+              </div>
+
+              <p id="laporan-chart-focus-note" class="laporan-focus-note" aria-live="polite">
+                Arahkan kursor atau fokus keyboard ke batang kategori untuk melihat detail anggaran.
+              </p>
+            </section>
+
+            <section class="card" aria-labelledby="judul-rincian-laporan">
+              <h2 id="judul-rincian-laporan" class="card__title">Rincian laporan</h2>
+              <p class="card__subtitle">Ringkasan pos pengeluaran terbesar dan kategori yang memerlukan pengendalian.</p>
+              <hr class="divider laporan-divider">
+              <div class="laporan-rincian-grid">
+                <div>
+                  <p class="laporan-rincian__label">Pengeluaran terbesar</p>
+                  <p id="rincian-terbesar" class="laporan-rincian__value">Makan · Rp 650.000</p>
+                </div>
+                <div>
+                  <p class="laporan-rincian__label">Perlu perhatian</p>
+                  <p id="rincian-perhatian" class="laporan-rincian__value text-terlampaui">Hiburan · Melebihi Rp 60.000</p>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <aside class="laporan-aside" aria-label="Perbandingan dan total pengeluaran bulanan">
+            <section class="card" aria-labelledby="judul-perbandingan">
+              <h2 id="judul-perbandingan" class="card__title">Perbandingan bulanan</h2>
+              <p id="perbandingan-delta" class="laporan-stat-value tabular-num">-Rp 40.000</p>
+              <p id="perbandingan-desc" class="card__copy">Turun 2% dibanding bulan sebelumnya.</p>
+              <hr class="divider laporan-divider">
+              <p id="perbandingan-prev-label" class="card__subtitle">Total bulan lalu (Okt 2026)</p>
+              <p id="perbandingan-prev-val" class="laporan-prev-value tabular-num">Rp 1.770.000</p>
+            </section>
+
+            <section class="card" aria-labelledby="judul-total-laporan">
+              <p id="judul-total-laporan" class="card__subtitle">Total pengeluaran bulan terpilih</p>
+              <p id="laporan-total-val" class="laporan-stat-value tabular-num">Rp 1.730.000</p>
+              <p id="laporan-total-cats" class="card__subtitle">5 kategori utama tercatat</p>
+            </section>
+          </aside>
+        </div>
+
+        <footer id="app-footer" class="page-footer"></footer>
+      </main>
+    </div>
+
+    <nav id="app-bottom-nav" class="bottom-nav" aria-label="Navigasi bawah mobile"></nav>
+  </div>
+</body>
+</html>

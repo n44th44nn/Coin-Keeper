@@ -1,0 +1,100 @@
+/* ==========================================================================
+   CoinKeeper Design Tokens
+   Sumber: Kanvas Figma web-hi-fi (124:2) & Laporan Tahap 2 Bab 2 (WCAG 2.2 AA)
+   ========================================================================== */
+
+:root {
+  /* 1. Navigasi Gelap & Identitas Sidebar */
+  --color-sidebar-bg: #0F172A;
+  --color-sidebar-hover: #1E293B;
+  --color-sidebar-border: #1E293B;
+  --color-sidebar-text: #CBD5E1;
+  --color-sidebar-muted: #94A3B8;
+  --color-sidebar-text-active: #FFFFFF;
+  --color-sidebar-focus: #93C5FD;
+  --color-online-dot: #22C55E;
+
+  /* 2. Proporsi 60% Permukaan & Latar Kanvas */
+  --color-bg-canvas: #F8FAFC;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-muted: #F1F5F9;
+  --color-bg-info-tint: #EFF6FF;
+  --color-border-info: #BFDBFE;
+
+  /* 3. Proporsi 30% Teks & Struktur */
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748B;
+  --color-border-card: #E2E8F0;
+  --color-border-input: #CBD5E1;
+
+  /* 4. Proporsi 10% Aksen Aksi Primer */
+  --color-action-primary: #1E40AF;
+  --color-action-hover: #1D4ED8;
+  --color-action-active: #172554;
+  --color-action-text: #FFFFFF;
+  --color-action-disabled-bg: #E2E8F0;
+  --color-action-disabled-text: #94A3B8;
+
+  /* 5. Palet Semantik Status (Dual-Signifier) */
+  --color-status-success-bg: #F0FDF4;
+  --color-status-success-border: #BBF7D0;
+  --color-status-success-text: #166534;
+  --color-status-success-bar: #15803D;
+
+  --color-status-warning-bg: #FFFBEB;
+  --color-status-warning-border: #FDE68A;
+  --color-status-warning-text: #92400E;
+  --color-status-warning-bar: #D97706;
+
+  --color-status-danger-bg: #FEF2F2;
+  --color-status-danger-border: #FECACA;
+  --color-status-danger-text: #991B1B;
+  --color-status-danger-solid: #B91C1C;
+  --color-status-danger-hover: #991B1B;
+
+  /* 6. Overlay Backdrop Modal (Figure-Ground) */
+  --color-backdrop: rgba(21, 26, 37, 0.60);
+
+  /* 7. Tipografi & Skala Modular (Major Third r = 1.250) */
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --text-h1: 2rem;         /* 32px */
+  --text-kpi: 1.75rem;     /* 28px */
+  --text-h2: 1.25rem;      /* 20px */
+  --text-h3: 1.125rem;     /* 18px */
+  --text-body: 1rem;       /* 16px */
+  --text-label: 0.875rem;  /* 14px */
+  --text-caption: 0.75rem; /* 12px */
+
+  /* 8. Sistem Spasi 8-Titik (8-Point Grid) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  /* 9. Dimensi Layout & Target Sentuh */
+  --sidebar-width: 240px;
+  --content-max-width: 1200px;
+  --bottom-nav-height: 68px;
+  --touch-target-min: 44px;
+  --control-height: 48px;
+
+  /* 10. Radius Sudut, Bayangan, & Durasi Micro-interaction */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 9999px;
+
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --shadow-modal: 0 20px 25px -5px rgba(15, 23, 42, 0.25);
+
+  --duration-instant: 80ms;
+  --duration-ui: 200ms;
+}

@@ -1,0 +1,141 @@
+/* ==========================================================================
+   Page 05: Rencana Tabungan Layout & Donut Ring Styles (web-hi-fi 124:433)
+   ========================================================================== */
+
+.tabungan-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.goals-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+.goal-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-height: 340px;
+}
+
+.goal-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.goal-card__title {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.goal-card__progress-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.goal-donut {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.goal-donut__svg {
+  width: 96px;
+  height: 96px;
+  transform: rotate(-90deg);
+}
+
+.goal-donut__pct {
+  position: absolute;
+  font-size: var(--text-h3);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.goal-card__amounts {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.goal-card__label {
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+}
+
+.goal-card__collected {
+  font-size: var(--text-h2);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.goal-card__target {
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+}
+
+.goal-card__deadline {
+  font-size: var(--text-label);
+  color: var(--color-text-secondary);
+}
+
+.goal-card__action {
+  margin-top: auto;
+}
+
+.tabungan-aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.tabungan-summary__value {
+  margin-top: var(--space-2);
+  font-size: clamp(1.375rem, 2.2vw, var(--text-kpi));
+  line-height: 1.25;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.tabungan-summary__saldo {
+  margin-top: var(--space-2);
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-action-primary);
+}
+
+.tabungan-divider {
+  margin: var(--space-4) 0;
+}
+
+.tabungan-reminder-title {
+  font-size: var(--text-h3);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+@media (min-width: 640px) {
+  .goals-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .tabungan-layout {
+    grid-template-columns: minmax(0, 744fr) minmax(0, 368fr);
+  }
+}

@@ -1,0 +1,159 @@
+/* ==========================================================================
+   Page 04: Laporan Bulanan Layout & SVG Bar Chart Styles (web-hi-fi 124:326)
+   ========================================================================== */
+
+.laporan-month-filter {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .laporan-month-filter {
+    width: 358px;
+  }
+}
+
+.laporan-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.laporan-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.laporan-aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.laporan-chart-wrap {
+  margin-top: var(--space-4);
+  width: 100%;
+  overflow-x: auto;
+}
+
+.laporan-chart-wrap[hidden] {
+  display: none;
+}
+
+.laporan-chart-svg {
+  width: 100%;
+  min-width: 300px;
+  height: auto;
+  display: block;
+}
+
+.chart-bar-group {
+  cursor: pointer;
+  outline: none;
+}
+
+.chart-bar-rect {
+  transition: opacity var(--duration-instant) ease, filter var(--duration-instant) ease;
+}
+
+.chart-bar-group:hover .chart-bar-rect,
+.chart-bar-group:focus-visible .chart-bar-rect {
+  opacity: 0.88;
+}
+
+.chart-bar-group:focus-visible .chart-bar-hit {
+  stroke: var(--color-action-hover);
+  stroke-width: 2;
+  stroke-dasharray: none;
+}
+
+.laporan-chart-empty {
+  margin-top: var(--space-4);
+}
+
+.laporan-legend {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+}
+
+.laporan-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.laporan-legend__dash {
+  width: 18px;
+  height: 0;
+  border-top: 2px dashed var(--color-text-secondary);
+}
+
+.laporan-legend__over {
+  color: var(--color-status-danger-solid);
+  font-weight: 700;
+  font-size: var(--text-body);
+  line-height: 1;
+}
+
+.laporan-focus-note {
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-canvas);
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+}
+
+.laporan-divider {
+  margin: var(--space-4) 0;
+}
+
+.laporan-rincian-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+.laporan-rincian__label {
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+}
+
+.laporan-rincian__value {
+  margin-top: var(--space-2);
+  font-size: var(--text-h3);
+  font-weight: 700;
+}
+
+.laporan-stat-value {
+  margin-top: var(--space-3);
+  font-size: clamp(1.375rem, 2.2vw, var(--text-kpi));
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.laporan-prev-value {
+  margin-top: var(--space-2);
+  font-size: var(--text-h2);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+@media (min-width: 640px) {
+  .laporan-rincian-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .laporan-layout {
+    grid-template-columns: minmax(0, 744fr) minmax(0, 368fr);
+  }
+}

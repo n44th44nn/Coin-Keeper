@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rencana Tabungan · CoinKeeper</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/tabungan.css">
+  <script defer src="../js/data/seed.js"></script>
+  <script defer src="../js/utils/format.js"></script>
+  <script defer src="../js/utils/storage.js"></script>
+  <script defer src="../js/components/icons.js"></script>
+  <script defer src="../js/components/layout.js"></script>
+  <script defer src="../js/components/modal.js"></script>
+  <script defer src="../js/components/toast.js"></script>
+  <script defer src="../js/app.js"></script>
+  <script defer src="../js/pages/tabungan.js"></script>
+</head>
+<body data-page="tabungan" data-root=".." data-screen="5 / 5">
+  <a href="#konten-utama" class="skip-link">Lewati ke konten utama</a>
+
+  <div class="app-shell">
+    <aside id="app-sidebar" class="sidebar" aria-label="Bilah navigasi samping"></aside>
+    <header id="app-mobile-topbar" class="mobile-topbar"></header>
+
+    <div class="app-main">
+      <main id="konten-utama" class="main-content" tabindex="-1">
+        <header class="page-header">
+          <div class="page-header__heading">
+            <h1 class="page-header__title">Rencana Tabungan</h1>
+            <p id="tabungan-subtitle" class="page-header__subtitle">Total terkumpul Rp 1.900.000</p>
+          </div>
+          <div class="page-header__action">
+            <button type="button" id="btn-open-new-goal" class="btn btn--primary btn--full">
+              <span aria-hidden="true">+</span>
+              <span>Target Baru</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="tabungan-layout">
+          <section class="tabungan-main" aria-label="Daftar target tabungan">
+            <div id="goals-grid" class="goals-grid"></div>
+            <div id="goals-empty" class="empty-state" hidden></div>
+          </section>
+
+          <aside class="tabungan-aside" aria-label="Ringkasan dan catatan tabungan">
+            <section class="card" aria-labelledby="judul-ringkasan-tabungan">
+              <p id="judul-ringkasan-tabungan" class="card__subtitle">Total tabungan</p>
+              <p id="summary-savings-total" class="tabungan-summary__value tabular-num">Rp 1.900.000</p>
+              <p id="summary-goals-count" class="card__subtitle">2 target aktif</p>
+              <p id="summary-available-saldo" class="tabungan-summary__saldo tabular-num">Saldo utama tersedia: Rp 1.430.000</p>
+              <hr class="divider tabungan-divider">
+              <h2 class="tabungan-reminder-title">Pengingat</h2>
+              <p class="card__copy">
+                Sisihkan sebagian uang saku di awal bulan agar target tabungan tercapai tepat waktu tanpa mengganggu kebutuhan pokok.
+              </p>
+            </section>
+
+            <section id="tabungan-undo-banner" class="card card--success undo-banner" aria-live="polite" hidden></section>
+
+            <section class="card card--info" aria-labelledby="judul-catatan-tabungan">
+              <h2 id="judul-catatan-tabungan" class="card__title card__title--info">Catatan tabungan</h2>
+              <p class="card__copy">
+                Setiap setoran memindahkan dana dari saldo utama ke target pilihan Anda dan tervalidasi otomatis agar saldo tidak minus.
+              </p>
+            </section>
+          </aside>
+        </div>
+
+        <footer id="app-footer" class="page-footer"></footer>
+      </main>
+    </div>
+
+    <nav id="app-bottom-nav" class="bottom-nav" aria-label="Navigasi bawah mobile"></nav>
+  </div>
+
+  <!-- Dialog 1: Setor Tabungan -->
+  <dialog id="dialog-goal-deposit" class="modal" aria-labelledby="dialog-deposit-title" aria-describedby="dialog-deposit-desc">
+    <div class="modal__inner">
+      <div class="modal__header">
+        <h2 id="dialog-deposit-title" class="modal__title">Setor tabungan</h2>
+        <button type="button" class="btn btn--icon" data-dialog-close aria-label="Tutup dialog">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="form-goal-deposit" class="modal__body" novalidate>
+        <p id="dialog-deposit-desc" class="modal__text"></p>
+        <div class="form-group">
+          <label for="input-deposit-amount" class="form-label">
+            Nominal setoran (Rp) <span class="form-label__req" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="input-deposit-amount"
+            name="amount"
+            type="text"
+            inputmode="numeric"
+            class="form-input tabular-num"
+            placeholder="100000"
+            autocomplete="off"
+            required
+            aria-describedby="helper-deposit-amount error-deposit-amount"
+          >
+          <p id="helper-deposit-amount" class="form-helper">Contoh: 100000 (tanpa titik atau koma).</p>
+          <p id="error-deposit-amount" class="form-error" role="alert" hidden></p>
+        </div>
+        <div class="modal__actions">
+          <button type="button" class="btn btn--secondary" data-dialog-close>Batal</button>
+          <button type="submit" id="btn-confirm-deposit" class="btn btn--primary" disabled>Konfirmasi setor</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Dialog 2: Target Tabungan Baru -->
+  <dialog id="dialog-goal-new" class="modal" aria-labelledby="dialog-new-goal-title" aria-describedby="dialog-new-goal-desc">
+    <div class="modal__inner">
+      <div class="modal__header">
+        <h2 id="dialog-new-goal-title" class="modal__title">Target baru</h2>
+        <button type="button" class="btn btn--icon" data-dialog-close aria-label="Tutup dialog">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="form-goal-new" class="modal__body" novalidate>
+        <p id="dialog-new-goal-desc" class="modal__text">
+          Tentukan nama tujuan, target dana, dan perkiraan tenggat pencapaian.
+        </p>
+
+        <div class="form-group">
+          <label for="input-goal-name" class="form-label">
+            Nama target <span class="form-label__req" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="input-goal-name"
+            name="name"
+            type="text"
+            maxlength="50"
+            class="form-input"
+            placeholder="Contoh: Biaya KKN"
+            required
+            aria-describedby="error-goal-name"
+          >
+          <p id="error-goal-name" class="form-error" role="alert" hidden></p>
+        </div>
+
+        <div class="form-group">
+          <label for="input-goal-target" class="form-label">
+            Nominal tujuan (Rp) <span class="form-label__req" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="input-goal-target"
+            name="target"
+            type="text"
+            inputmode="numeric"
+            class="form-input tabular-num"
+            placeholder="2000000"
+            autocomplete="off"
+            required
+            aria-describedby="helper-goal-target error-goal-target"
+          >
+          <p id="helper-goal-target" class="form-helper">Contoh: 2000000 (tanpa titik atau koma).</p>
+          <p id="error-goal-target" class="form-error" role="alert" hidden></p>
+        </div>
+
+        <div class="form-group">
+          <label for="input-goal-deadline" class="form-label">
+            Tenggat <span class="form-label__req" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="input-goal-deadline"
+            name="deadline"
+            type="date"
+            class="form-input"
+            value="2027-08-31"
+            required
+            aria-describedby="error-goal-deadline"
+          >
+          <p id="error-goal-deadline" class="form-error" role="alert" hidden></p>
+        </div>
+
+        <div class="modal__actions">
+          <button type="button" class="btn btn--secondary" data-dialog-close>Batal</button>
+          <button type="submit" id="btn-create-goal" class="btn btn--primary">Buat target</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+</body>
+</html>

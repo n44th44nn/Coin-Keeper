@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catat Transaksi · CoinKeeper</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/pages/catat-transaksi.css">
+  <script defer src="../js/data/seed.js"></script>
+  <script defer src="../js/utils/format.js"></script>
+  <script defer src="../js/utils/storage.js"></script>
+  <script defer src="../js/components/icons.js"></script>
+  <script defer src="../js/components/layout.js"></script>
+  <script defer src="../js/components/modal.js"></script>
+  <script defer src="../js/components/toast.js"></script>
+  <script defer src="../js/app.js"></script>
+  <script defer src="../js/pages/catat-transaksi.js"></script>
+</head>
+<body data-page="catat" data-root=".." data-screen="2 / 5">
+  <a href="#konten-utama" class="skip-link">Lewati ke konten utama</a>
+
+  <div class="app-shell">
+    <aside id="app-sidebar" class="sidebar" aria-label="Bilah navigasi samping"></aside>
+    <header id="app-mobile-topbar" class="mobile-topbar"></header>
+
+    <div class="app-main">
+      <main id="konten-utama" class="main-content" tabindex="-1">
+        <header class="page-header">
+          <div class="page-header__heading">
+            <h1 class="page-header__title">Catat Transaksi</h1>
+            <p class="page-header__subtitle">Isi cepat, tersimpan dalam satu langkah.</p>
+          </div>
+        </header>
+
+        <div class="catat-grid">
+          <section class="card catat-form-card" aria-labelledby="judul-form-transaksi">
+            <h2 id="judul-form-transaksi" class="card__title">Transaksi baru</h2>
+            <p class="card__subtitle">Pilih jenis, isi nominal, lalu tentukan kategori.</p>
+
+            <form id="form-transaksi" class="catat-form" novalidate>
+              <div class="form-group">
+                <span id="label-jenis" class="form-label">Jenis</span>
+                <div class="segmented segmented--2" role="group" aria-labelledby="label-jenis">
+                  <button type="button" class="segmented__btn segmented__btn--active" data-tx-type="pengeluaran" aria-pressed="true">
+                    Pengeluaran
+                  </button>
+                  <button type="button" class="segmented__btn" data-tx-type="pemasukan" aria-pressed="false">
+                    Pemasukan
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="input-nominal" class="form-label">
+                  Nominal (Rp) <span class="form-label__req" aria-hidden="true">*</span>
+                </label>
+                <input
+                  id="input-nominal"
+                  name="nominal"
+                  type="text"
+                  inputmode="numeric"
+                  class="form-input tabular-num"
+                  placeholder="25000"
+                  autocomplete="off"
+                  required
+                  aria-describedby="helper-nominal error-nominal"
+                >
+                <p id="helper-nominal" class="form-helper">Contoh: 25000 (tanpa titik atau koma).</p>
+                <p id="error-nominal" class="form-error" role="alert" hidden></p>
+              </div>
+
+              <div class="form-group">
+                <span id="label-kategori" class="form-label">
+                  Kategori <span class="form-label__req" aria-hidden="true">*</span>
+                </span>
+                <div id="kategori-chips" class="chip-grid" role="group" aria-labelledby="label-kategori"></div>
+                <p id="kategori-terpilih" class="form-helper">Kategori terpilih: Makan</p>
+              </div>
+
+              <div class="form-group">
+                <label for="input-tanggal" class="form-label">
+                  Tanggal <span class="form-label__req" aria-hidden="true">*</span>
+                </label>
+                <input
+                  id="input-tanggal"
+                  name="tanggal"
+                  type="date"
+                  class="form-input"
+                  value="2026-11-23"
+                  required
+                  aria-describedby="error-tanggal"
+                >
+                <p id="error-tanggal" class="form-error" role="alert" hidden></p>
+              </div>
+
+              <div class="form-group">
+                <label for="input-catatan" class="form-label">Catatan (opsional)</label>
+                <input
+                  id="input-catatan"
+                  name="catatan"
+                  type="text"
+                  maxlength="80"
+                  class="form-input"
+                  placeholder="Contoh: Makan siang di kantin"
+                >
+              </div>
+
+              <div class="catat-form__actions">
+                <button type="button" id="btn-batal-tx" class="btn btn--secondary">Batal</button>
+                <button type="submit" id="btn-simpan-tx" class="btn btn--primary" disabled>
+                  Simpan transaksi
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <aside id="riwayat-transaksi" class="catat-aside" aria-label="Riwayat dan panduan transaksi">
+            <section class="card" aria-labelledby="judul-riwayat-tx">
+              <h2 id="judul-riwayat-tx" class="card__title">Riwayat transaksi</h2>
+              <p id="riwayat-subtitle" class="card__subtitle">4 transaksi tercatat</p>
+              <ul id="riwayat-list" class="tx-list catat-history-list" aria-live="polite"></ul>
+              <div id="riwayat-empty" class="empty-state catat-history-empty" hidden></div>
+            </section>
+
+            <section id="catat-undo-banner" class="card card--success undo-banner" aria-live="polite" hidden></section>
+
+            <section class="card card--info" aria-labelledby="judul-panduan-tx">
+              <h2 id="judul-panduan-tx" class="card__title card__title--info">Panduan transaksi</h2>
+              <p class="card__copy">
+                Ketik nominal tanpa pemisah titik/koma lalu pilih chip kategori agar laporan bulanan dan batas anggaran otomatis terperbarui. Gunakan ikon tempat sampah jika ada salah catat.
+              </p>
+            </section>
+          </aside>
+        </div>
+
+        <footer id="app-footer" class="page-footer"></footer>
+      </main>
+    </div>
+
+    <nav id="app-bottom-nav" class="bottom-nav" aria-label="Navigasi bawah mobile"></nav>
+  </div>
+
+  <!-- Dialog 1: Transaksi Tersimpan (Closure Feedback) -->
+  <dialog id="dialog-tx-saved" class="modal" aria-labelledby="dialog-saved-title" aria-describedby="dialog-saved-desc">
+    <div class="modal__inner">
+      <div class="modal__header">
+        <h2 id="dialog-saved-title" class="modal__title modal__title--success">
+          <span id="dialog-saved-icon" aria-hidden="true"></span>
+          <span>Transaksi tersimpan</span>
+        </h2>
+        <button type="button" class="btn btn--icon" data-dialog-close aria-label="Tutup dialog">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal__body">
+        <p id="dialog-saved-desc" class="modal__text"></p>
+      </div>
+      <div class="modal__actions">
+        <button type="button" class="btn btn--secondary" data-dialog-close>Lanjutkan</button>
+        <a href="../index.html" class="btn btn--primary">Ke dasbor</a>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Dialog 2: Konfirmasi Hapus Destruktif (4 Elemen Wajib) -->
+  <dialog id="dialog-tx-delete" class="modal" aria-labelledby="dialog-delete-title" aria-describedby="dialog-delete-desc">
+    <div class="modal__inner">
+      <div class="modal__header">
+        <h2 id="dialog-delete-title" class="modal__title">Hapus transaksi ini?</h2>
+        <button type="button" class="btn btn--icon" data-dialog-close aria-label="Tutup dialog">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal__body">
+        <p id="dialog-delete-item" class="modal__lead"></p>
+        <p id="dialog-delete-desc" class="modal__text"></p>
+      </div>
+      <div class="modal__actions">
+        <button type="button" class="btn btn--secondary" data-dialog-close>Batal</button>
+        <button type="button" id="btn-confirm-delete" class="btn btn--danger">Ya, Hapus Transaksi</button>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>
