@@ -52,16 +52,42 @@
     sidebar.appendChild(el('div', { className: 'sidebar__brand' }, renderBrandMark()));
     sidebar.appendChild(el('p', { className: 'sidebar__section-label', text: 'KEUANGAN PRIBADI' }));
     sidebar.appendChild(el('nav', { 'aria-label': 'Menu utama' }, navList));
-    sidebar.appendChild(el('div', { className: 'sidebar__account' }, [
-      el('div', { className: 'sidebar__account-info' }, [
-        el('span', { className: 'profile-name', text: profile.name }),
-        el('span', { className: 'profile-type', text: profile.accountType })
+
+    const logoutBtn = el('button', {
+      type: 'button',
+      id: 'btn-sidebar-logout',
+      className: 'sidebar__logout'
+    }, [
+      CoinKeeper.icons.create('logout', 18),
+      el('span', { text: 'Keluar' })
+    ]);
+    logoutBtn.addEventListener('click', function () {
+      handleLogout(rootPrefix);
+    });
+
+    sidebar.appendChild(el('div', { className: 'sidebar__footer' }, [
+      el('div', { className: 'sidebar__account' }, [
+        el('div', { className: 'sidebar__account-info' }, [
+          el('span', { className: 'profile-name', text: profile.name }),
+          el('span', { className: 'profile-type', text: profile.accountType })
+        ]),
+        el('span', { className: 'online-dot', role: 'img', 'aria-label': 'Status aktif' })
       ]),
-      el('span', { className: 'online-dot', role: 'img', 'aria-label': 'Status aktif' })
+      logoutBtn
     ]));
   }
 
-  function renderMobileTopbar(profile) {
+  function handleLogout(rootPrefix) {
+    if (CoinKeeper.auth && typeof CoinKeeper.auth.logout === 'function') {
+      CoinKeeper.auth.logout();
+    }
+    if (CoinKeeper.feedback && typeof CoinKeeper.feedback.announce === 'function') {
+      CoinKeeper.feedback.announce('Anda telah keluar dari akun.');
+    }
+    global.location.href = resolveHref(rootPrefix, 'pages/login.html');
+  }
+
+  function renderMobileTopbar(profile, rootPrefix) {
     const topbar = document.getElementById('app-mobile-topbar');
     if (!topbar) return;
     const el = CoinKeeper.fmt.el;
@@ -72,12 +98,26 @@
       el('span', { className: 'brand-sublabel', text: 'KEUANGAN PRIBADI' })
     ]));
 
-    topbar.appendChild(el('div', { className: 'mobile-topbar__profile' }, [
-      el('div', { className: 'profile-row' }, [
-        el('span', { className: 'profile-name', text: profile.name }),
-        el('span', { className: 'online-dot', 'aria-hidden': 'true' })
+    const mobileLogoutBtn = el('button', {
+      type: 'button',
+      id: 'btn-mobile-logout',
+      className: 'mobile-topbar__logout',
+      'aria-label': 'Keluar dari akun',
+      title: 'Keluar'
+    }, CoinKeeper.icons.create('logout', 18));
+    mobileLogoutBtn.addEventListener('click', function () {
+      handleLogout(rootPrefix);
+    });
+
+    topbar.appendChild(el('div', { className: 'mobile-topbar__right' }, [
+      el('div', { className: 'mobile-topbar__profile' }, [
+        el('div', { className: 'profile-row' }, [
+          el('span', { className: 'profile-name', text: profile.name }),
+          el('span', { className: 'online-dot', 'aria-hidden': 'true' })
+        ]),
+        el('span', { className: 'profile-type', text: profile.accountType })
       ]),
-      el('span', { className: 'profile-type', text: profile.accountType })
+      mobileLogoutBtn
     ]));
   }
 
@@ -123,7 +163,7 @@
     const profile = state.profile || CoinKeeper.SEED.profile;
 
     renderSidebar(activePage, rootPrefix, profile);
-    renderMobileTopbar(profile);
+    renderMobileTopbar(profile, rootPrefix);
     renderBottomNav(activePage, rootPrefix);
     renderFooter(screenNum);
   }

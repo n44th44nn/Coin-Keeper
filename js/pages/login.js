@@ -68,20 +68,38 @@
     errorEl.hidden = false;
   }
 
-  function saveSessionAndSyncProfile(email, remember) {
-    const displayName = deriveNameFromEmail(email);
+  function getTargetUrl() {
+    let nextParam = '';
+    try {
+      const params = new URLSearchParams(global.location.search);
+      nextParam = params.get('next') || '';
+    } catch (err) {
+      /* Abaikan jika URLSearchParams tidak tersedia */
+    }
+    const safePath = CoinKeeper.auth ? CoinKeeper.auth.resolveSafeNext(nextParam) : 'index.html';
+    return '../' + safePath;
+  }
+
+  function saveSessionAndSyncProfile(email, remember, options) {
+    const opts = options || {};
+    const displayName = opts.displayName || deriveNameFromEmail(email);
     const session = {
       authenticated: true,
+      isGuest: Boolean(opts.isGuest),
       email: email,
       name: displayName,
       remember: Boolean(remember),
       loggedInAt: new Date().toISOString()
     };
 
-    try {
-      global.localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-    } catch (err) {
-      /* Abaikan jika penyimpanan peramban dibatasi */
+    if (CoinKeeper.auth && typeof CoinKeeper.auth.saveSession === 'function') {
+      CoinKeeper.auth.saveSession(session);
+    } else {
+      try {
+        global.localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+      } catch (err) {
+        /* Abaikan jika penyimpanan peramban dibatasi */
+      }
     }
 
     if (CoinKeeper.store) {
@@ -95,6 +113,11 @@
   }
 
   function init() {
+    if (CoinKeeper.auth && CoinKeeper.auth.isAuthenticated()) {
+      global.location.replace(getTargetUrl());
+      return;
+    }
+
     populateStaticIcons();
 
     const form = document.getElementById('login-form');
@@ -106,6 +129,7 @@
     const togglePasswordBtn = document.getElementById('btn-toggle-password');
     const submitBtn = document.getElementById('btn-login-submit');
     const fillDemoBtn = document.getElementById('btn-fill-demo');
+    const guestBtn = document.getElementById('btn-guest-login');
     const forgotBtn = document.getElementById('btn-forgot-password');
     const forgotDialogEl = document.getElementById('dialog-forgot-password');
     const modalDemoBtn = document.getElementById('btn-modal-use-demo');
@@ -240,6 +264,20 @@
       fillDemoBtn.addEventListener('click', fillDemoCredentials);
     }
 
+    if (guestBtn) {
+      guestBtn.addEventListener('click', function () {
+        if (isSubmitting) return;
+        saveSessionAndSyncProfile('tamu@coinkeeper.local', false, {
+          isGuest: true,
+          displayName: 'Faqih'
+        });
+        if (CoinKeeper.feedback) {
+          CoinKeeper.feedback.toast('Masuk sebagai Tamu.', 'success');
+        }
+        global.location.href = getTargetUrl();
+      });
+    }
+
     const forgotModal = forgotDialogEl && CoinKeeper.modal
       ? CoinKeeper.modal.bind(forgotDialogEl, { initialFocus: '#btn-modal-use-demo' })
       : null;
@@ -297,7 +335,7 @@
           CoinKeeper.feedback.toast('Berhasil masuk sebagai ' + displayName + '.', 'success');
         }
         global.setTimeout(function () {
-          global.location.href = '../index.html';
+          global.location.href = getTargetUrl();
         }, 120);
       }, 360);
     });

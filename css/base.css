@@ -170,11 +170,47 @@ ol {
   color: var(--color-sidebar-muted);
 }
 
+.mobile-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  flex-shrink: 0;
+}
+
 .mobile-topbar__profile {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   text-align: right;
+  min-width: 0;
+}
+
+.mobile-topbar__logout {
+  width: var(--touch-target-min);
+  height: var(--touch-target-min);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-sidebar-border);
+  background-color: var(--color-sidebar-hover);
+  color: var(--color-sidebar-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    background-color var(--duration-instant),
+    color var(--duration-instant),
+    transform var(--duration-instant);
+}
+
+.mobile-topbar__logout:hover {
+  background-color: var(--color-action-primary);
+  border-color: var(--color-action-primary);
+  color: var(--color-sidebar-text-active);
+}
+
+.mobile-topbar__logout:active {
+  transform: scale(0.96);
 }
 
 .profile-row {
@@ -345,20 +381,58 @@ ol {
     font-weight: 600;
   }
 
-  .sidebar__account {
+  .sidebar__footer {
     margin-top: auto;
-    padding: var(--space-5) var(--space-2) 0;
+    padding-top: var(--space-5);
     border-top: 1px solid var(--color-sidebar-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .sidebar__account {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: var(--space-2);
   }
 
+  .sidebar__logout {
+    width: 100%;
+    min-height: var(--touch-target-min);
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-sidebar-border);
+    background-color: var(--color-sidebar-hover);
+    color: var(--color-sidebar-text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-size: var(--text-label);
+    font-weight: 600;
+    transition:
+      background-color var(--duration-instant),
+      border-color var(--duration-instant),
+      color var(--duration-instant),
+      transform var(--duration-instant);
+  }
+
+  .sidebar__logout:hover {
+    background-color: var(--color-action-primary);
+    border-color: var(--color-action-primary);
+    color: var(--color-sidebar-text-active);
+  }
+
+  .sidebar__logout:active {
+    transform: scale(0.98);
+  }
+
   .sidebar__account-info {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
+    min-width: 0;
   }
 
   .sidebar__account .online-dot {

@@ -296,4 +296,81 @@
     addGoal: addGoal,
     removeGoal: removeGoal
   };
+
+  /* ------------------------------------------------------------------------
+     Lapisan Sesi & Autentikasi Lokal (Lintas Halaman)
+     ------------------------------------------------------------------------ */
+  const SESSION_KEY = 'coinkeeper_session_v1';
+  const ALLOWED_PAGES = [
+    'index.html',
+    'pages/catat-transaksi.html',
+    'pages/anggaran.html',
+    'pages/laporan.html',
+    'pages/tabungan.html'
+  ];
+
+  function readSessionFrom(storageObj) {
+    try {
+      const raw = storageObj && storageObj.getItem(SESSION_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object' && parsed.authenticated === true) {
+        return parsed;
+      }
+    } catch (err) {
+      /* Abaikan jika penyimpanan peramban dibatasi */
+    }
+    return null;
+  }
+
+  function getSession() {
+    return readSessionFrom(global.localStorage) || readSessionFrom(global.sessionStorage);
+  }
+
+  function isAuthenticated() {
+    return Boolean(getSession());
+  }
+
+  function saveSession(session) {
+    const payload = JSON.stringify(session);
+    try {
+      global.localStorage.removeItem(SESSION_KEY);
+    } catch (err) {}
+    try {
+      global.sessionStorage.removeItem(SESSION_KEY);
+    } catch (err) {}
+
+    try {
+      const target = session && session.remember ? global.localStorage : global.sessionStorage;
+      if (target) {
+        target.setItem(SESSION_KEY, payload);
+      }
+    } catch (err) {
+      /* Abaikan jika kuota/akses penyimpanan dibatasi */
+    }
+    return session;
+  }
+
+  function logoutSession() {
+    try {
+      global.localStorage.removeItem(SESSION_KEY);
+    } catch (err) {}
+    try {
+      global.sessionStorage.removeItem(SESSION_KEY);
+    } catch (err) {}
+  }
+
+  function resolveSafeNext(nextParam) {
+    const candidate = String(nextParam || '').trim();
+    return ALLOWED_PAGES.indexOf(candidate) !== -1 ? candidate : 'index.html';
+  }
+
+  CoinKeeper.auth = {
+    SESSION_KEY: SESSION_KEY,
+    getSession: getSession,
+    isAuthenticated: isAuthenticated,
+    saveSession: saveSession,
+    logout: logoutSession,
+    resolveSafeNext: resolveSafeNext
+  };
 })(window);
