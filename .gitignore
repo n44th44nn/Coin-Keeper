@@ -1,0 +1,51 @@
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ===== Editors / IDEs =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ===== AI agent / tooling workspace files =====
+.agent/
+.antigravity/
+.gemini/
+.claude/
+.cursor/
+
+# ===== Dependencies & build output (in case you add tooling later) =====
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+
+# ===== Logs =====
+*.log
+npm-debug.log*
+
+# ===== Environment & secrets =====
+.env
+.env.*
+!.env.example
+
+# ===== Temporary / working files =====
+*.tmp
+*.bak
+*.temp
+docs/_build/
+docs/*.aux
+docs/*.toc
+
+# ===== Course materials (lecturer's copyrighted slides, keep local only) =====
+material/
+/material/
+
+# ===== Local-only folders if you ever init Git at the imk/ root =====
+project-reference/
+project-report/
