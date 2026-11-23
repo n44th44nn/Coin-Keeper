@@ -70,6 +70,16 @@
       { tag: 'circle', attrs: { cx: '12', cy: '12', r: '9' } },
       { tag: 'path', attrs: { d: 'M12 11v5' } },
       { tag: 'circle', attrs: { cx: '12', cy: '8', r: '0.9', fill: 'currentColor', stroke: 'none' } }
+    ],
+    eye: [
+      { tag: 'path', attrs: { d: 'M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z' } },
+      { tag: 'circle', attrs: { cx: '12', cy: '12', r: '3' } }
+    ],
+    eyeOff: [
+      { tag: 'path', attrs: { d: 'M17.94 17.94A10.07 10.07 0 0 1 12 19c-6.4 0-10-7-10-7a18.45 18.45 0 0 1 5.06-5.94' } },
+      { tag: 'path', attrs: { d: 'M9.9 4.24A9.12 9.12 0 0 1 12 4c6.4 0 10 7 10 7a18.5 18.5 0 0 1-2.16 3.19' } },
+      { tag: 'path', attrs: { d: 'M14.12 14.12a3 3 0 1 1-4.24-4.24' } },
+      { tag: 'line', attrs: { x1: '2', y1: '2', x2: '22', y2: '22' } }
     ]
   };
 
